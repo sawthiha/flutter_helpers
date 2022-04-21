@@ -202,6 +202,20 @@ class BoxFitConverter extends JsonConverter<BoxFit, int>  {
 
 }
 
+/// TextDirection Json Converter
+class TextDirectionConverter extends JsonConverter<TextDirection, int>  {
+
+  /// Const Constructor (Necessary for Annotation)
+  const TextDirectionConverter();
+
+  @override
+  TextDirection fromJson(int json) => TextDirection.values[json];
+
+  @override
+  int toJson(TextDirection object) => object.index;
+
+}
+
 /// Paint Json Converter
 class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
 
@@ -209,7 +223,15 @@ class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
   const PaintConverter();
 
   @override
-  Paint fromJson(Map<String, dynamic> json) => Paint();
+  Paint fromJson(Map<String, dynamic> json) => Paint().copyWith(
+    color: const ColorConverter().fromJson(json['color']),
+    strokeWidth: json['strokeWidth'],
+    strokeCap: const StrokeCapConverter().fromJson(json['strokeCap']),
+    style: const PaintingStyleConverter().fromJson(json['style']),
+    strokeJoin: const StrokeJoinConverter().fromJson(json['strokeCap']),
+    blendMode: const BlendModeConverter().fromJson(json['blendMode']),
+    isAntiAlias: json['isAntiAlias'],
+  );
 
   @override
   Map<String, dynamic> toJson(Paint object) => {
@@ -220,6 +242,28 @@ class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
     'strokeJoin': const StrokeJoinConverter().toJson(object.strokeJoin),
     'blendMode': const BlendModeConverter().toJson(object.blendMode),
     'isAntiAlias': object.isAntiAlias,
+  };
+
+}
+
+class TextPainterConverter extends JsonConverter<TextPainter, Map<String, dynamic>>  {
+
+  const TextPainterConverter();
+
+  @override
+  TextPainter fromJson(Map<String, dynamic> json) => TextPainter().copyWith(
+    textAlign: const TextAlignConverter().fromJson(json['align']),
+    textDirection: json.containsKey('direction') ? const TextDirectionConverter().fromJson(json['direction'])
+      : null,
+    textScaleFactor: json['scaleFactor'],
+  );
+
+  @override
+  Map<String, dynamic> toJson(TextPainter object) => {
+    'align': const TextAlignConverter().toJson(object.textAlign),
+    if(object.textDirection != null)
+      'direction': const TextDirectionConverter().toJson(object.textDirection!),
+    'scaleFactor': object.textScaleFactor,
   };
 
 }

@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter/painting.dart';
 
-
 extension PaintExtension on Paint  {
   Paint copyWith(
     {
