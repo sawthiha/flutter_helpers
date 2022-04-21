@@ -2,6 +2,9 @@ library helper_extensions;
 
 import 'dart:ui';
 
+import 'package:flutter/painting.dart';
+
+
 extension PaintExtension on Paint  {
   Paint copyWith(
     {
@@ -27,4 +30,32 @@ extension PaintExtension on Paint  {
     ..colorFilter = colorFilter ?? this.colorFilter
     ..blendMode = blendMode ?? this.blendMode
     ..isAntiAlias = isAntiAlias ?? this.isAntiAlias;
+}
+
+extension TextPainterExtension on TextPainter  {
+  
+  TextPainter copyWith({
+    InlineSpan? text,
+    TextAlign? textAlign,
+    TextDirection? textDirection,
+    double? textScaleFactor,
+    int? maxLines,
+    String? ellipsis,
+    Locale? locale,
+    StrutStyle? strutStyle,
+    TextWidthBasis? textWidthBasis,
+    TextHeightBehavior? textHeightBehavior,
+  }) => TextPainter(
+    text: text ?? this.text,
+    textAlign: textAlign ?? this.textAlign,
+    textDirection: textDirection ?? this.textDirection,
+    textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+    maxLines: maxLines ?? this.maxLines,
+    ellipsis: ellipsis ?? this.ellipsis,
+    locale: locale ?? this.locale,
+    strutStyle: strutStyle ?? this.strutStyle,
+    textWidthBasis: textWidthBasis ?? this.textWidthBasis,
+    textHeightBehavior: textHeightBehavior ?? this.textHeightBehavior,
+  );
+
 }
