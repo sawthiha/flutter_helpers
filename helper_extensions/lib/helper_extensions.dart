@@ -18,6 +18,10 @@ extension PaintExtension on Paint  {
       ColorFilter? colorFilter,
       BlendMode? blendMode,
       bool? isAntiAlias,
+      double? strokeMiterLimit,
+      FilterQuality? filterQuality,
+      ImageFilter? imageFilter,
+      bool? invertColors,
     }
   ) => Paint()
     ..color = color ?? this.color
@@ -29,7 +33,11 @@ extension PaintExtension on Paint  {
     ..shader = shader ?? this.shader
     ..colorFilter = colorFilter ?? this.colorFilter
     ..blendMode = blendMode ?? this.blendMode
-    ..isAntiAlias = isAntiAlias ?? this.isAntiAlias;
+    ..isAntiAlias = isAntiAlias ?? this.isAntiAlias
+    ..strokeMiterLimit = strokeMiterLimit ?? this.strokeMiterLimit
+    ..filterQuality = filterQuality ?? this.filterQuality
+    ..imageFilter = imageFilter ?? this.imageFilter
+    ..invertColors = invertColors ?? this.invertColors;
 }
 
 extension TextPainterExtension on TextPainter  {
