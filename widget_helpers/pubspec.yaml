@@ -1,6 +1,6 @@
-name: widget_toolbox
+name: widget_helpers
 description: A toobox for flutter widgets.
-version: 0.0.2
+version: 0.0.1
 homepage: 
 publish_to: none
 
