@@ -1,3 +1,3 @@
 # widget_helpers
 
-Flutter widget helpers
+Flutter Widget Helpers
