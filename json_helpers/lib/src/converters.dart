@@ -14,6 +14,23 @@ class ColorConverter extends JsonConverter<Color, int>  {
 
 }
 
+/// Nullable Color Json Converter
+class NullableColorConverter extends JsonConverter<Color?, int>  {
+
+  static const colorConverter = ColorConverter();
+
+  /// const constructor
+  const NullableColorConverter();
+
+  @override
+  Color? fromJson(int json) => json < 0 ? null
+    : colorConverter.fromJson(json);
+
+  @override
+  int toJson(Color? object) => object == null ? -1: colorConverter.toJson(object);
+
+}
+
 /// Size Json Converter
 class SizeConverter extends JsonConverter<Size, Map<String, dynamic>>  {
 
@@ -29,6 +46,27 @@ class SizeConverter extends JsonConverter<Size, Map<String, dynamic>>  {
   Map<String, dynamic> toJson(Size object) => {
     'width': object.width,
     'height': object.height,
+  };
+
+}
+
+/// Nullable Size Json Converter
+class NullableSizeConverter extends JsonConverter<Size?, Map<String, dynamic>>  {
+
+  static const sizeConverter = SizeConverter();
+
+  /// Const Constructor (Necessary for Annotation)
+  const NullableSizeConverter();
+
+  @override
+  Size? fromJson(Map<String, dynamic> json)
+    => json.containsKey('width') && json.containsKey('height') ? sizeConverter.fromJson(json)
+      : null;
+
+  @override
+  Map<String, dynamic> toJson(Size? object) => <String, dynamic>{
+    if(object != null)
+    ...sizeConverter.toJson(object),
   };
 
 }
