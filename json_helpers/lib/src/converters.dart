@@ -17,17 +17,15 @@ class ColorConverter extends JsonConverter<Color, int>  {
 /// Nullable Color Json Converter
 class NullableColorConverter extends JsonConverter<Color?, int>  {
 
-  static const colorConverter = ColorConverter();
-
   /// const constructor
   const NullableColorConverter();
 
   @override
   Color? fromJson(int json) => json < 0 ? null
-    : colorConverter.fromJson(json);
+    : Color(json);
 
   @override
-  int toJson(Color? object) => object == null ? -1: colorConverter.toJson(object);
+  int toJson(Color? object) => object == null ? -1: object.value;
 
 }
 
@@ -53,20 +51,23 @@ class SizeConverter extends JsonConverter<Size, Map<String, dynamic>>  {
 /// Nullable Size Json Converter
 class NullableSizeConverter extends JsonConverter<Size?, Map<String, dynamic>>  {
 
-  static const sizeConverter = SizeConverter();
-
   /// Const Constructor (Necessary for Annotation)
   const NullableSizeConverter();
 
   @override
   Size? fromJson(Map<String, dynamic> json)
-    => json.containsKey('width') && json.containsKey('height') ? sizeConverter.fromJson(json)
-      : null;
+    => json.containsKey('width') && json.containsKey('height') ?
+      Size(
+        json['width'], json['height']
+      ): null;
 
   @override
   Map<String, dynamic> toJson(Size? object) => <String, dynamic>{
     if(object != null)
-    ...sizeConverter.toJson(object),
+      ...{
+        'width': object.width,
+        'height': object.height,
+      },
   };
 
 }
@@ -181,6 +182,24 @@ class OffsetConverter extends JsonConverter<Offset, List<double>>  {
 
   @override
   List<double> toJson(Offset object) => <double>[object.dx, object.dy];
+
+}
+
+/// Offset Json Converter
+class NullableOffsetConverter extends JsonConverter<Offset?, List<double>>  {
+
+  /// Const Constructor (Necessary for Annotation)
+  const NullableOffsetConverter();
+
+  @override
+  Offset? fromJson(List<double> json)
+    => json.isEmpty ? null
+      : Offset(json[0], json[1]);
+
+  @override
+  List<double> toJson(Offset? object)
+    => object != null ? <double>[object.dx, object.dy]
+    : <double>[];
 
 }
 
