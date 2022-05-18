@@ -86,6 +86,26 @@ class DurationConverter extends JsonConverter<Duration, int>  {
 
 }
 
+/// List of Duration Json Converter
+class DurationListConverter extends JsonConverter<List<Duration>, List<int>>  {
+
+  /// Const Constructor (Necessary for Annotation)
+  const DurationListConverter();
+
+  @override
+  List<Duration> fromJson(List<int> json) => [
+    for (var durJson in json)
+    Duration(microseconds: durJson),
+  ];
+
+  @override
+  List<int> toJson(List<Duration> object) => [
+    for (var duration in object)
+      duration.inMicroseconds,
+  ];
+
+}
+
 /// DateTime Json Converter
 class DateTimeConverter extends JsonConverter<DateTime, String>  {
 
