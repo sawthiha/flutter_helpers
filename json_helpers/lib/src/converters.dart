@@ -135,62 +135,6 @@ class Matrix4Converter extends JsonConverter<Matrix4, List<double>>  {
 
 }
 
-/// StrokeCap Json Converter
-class StrokeCapConverter extends JsonConverter<StrokeCap, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const StrokeCapConverter();
-
-  @override
-  StrokeCap fromJson(int json) => StrokeCap.values[json];
-
-  @override
-  int toJson(StrokeCap object) => object.index;
-
-}
-
-/// StrokeJoin Json Converter
-class StrokeJoinConverter extends JsonConverter<StrokeJoin, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const StrokeJoinConverter();
-
-  @override
-  StrokeJoin fromJson(int json) => StrokeJoin.values[json];
-
-  @override
-  int toJson(StrokeJoin object) => object.index;
-
-}
-
-/// PaintingStyle Json Converter
-class PaintingStyleConverter extends JsonConverter<PaintingStyle, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const PaintingStyleConverter();
-
-  @override
-  PaintingStyle fromJson(int json) => PaintingStyle.values[json];
-
-  @override
-  int toJson(PaintingStyle object) => object.index;
-
-}
-
-/// BlendMode Json Converter
-class BlendModeConverter extends JsonConverter<BlendMode, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const BlendModeConverter();
-
-  @override
-  BlendMode fromJson(int json) => BlendMode.values[json];
-
-  @override
-  int toJson(BlendMode object) => object.index;
-
-}
-
 /// Offset Json Converter
 class OffsetConverter extends JsonConverter<Offset, List<double>>  {
 
@@ -237,62 +181,6 @@ class FontWeightConverter extends JsonConverter<FontWeight, int>  {
 
 }
 
-/// FontStyle Json Converter
-class FontStyleConverter extends JsonConverter<FontStyle, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const FontStyleConverter();
-
-  @override
-  FontStyle fromJson(int json) => FontStyle.values[json];
-
-  @override
-  int toJson(FontStyle object) => object.index;
-
-}
-
-/// TextAlign Json Converter
-class TextAlignConverter extends JsonConverter<TextAlign, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const TextAlignConverter();
-
-  @override
-  TextAlign fromJson(int json) => TextAlign.values[json];
-
-  @override
-  int toJson(TextAlign object) => object.index;
-
-}
-
-/// BoxFit Json Converter
-class BoxFitConverter extends JsonConverter<BoxFit, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const BoxFitConverter();
-
-  @override
-  BoxFit fromJson(int json) => BoxFit.values[json];
-
-  @override
-  int toJson(BoxFit object) => object.index;
-
-}
-
-/// TextDirection Json Converter
-class TextDirectionConverter extends JsonConverter<TextDirection, int>  {
-
-  /// Const Constructor (Necessary for Annotation)
-  const TextDirectionConverter();
-
-  @override
-  TextDirection fromJson(int json) => TextDirection.values[json];
-
-  @override
-  int toJson(TextDirection object) => object.index;
-
-}
-
 /// Paint Json Converter
 class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
 
@@ -303,10 +191,10 @@ class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
   Paint fromJson(Map<String, dynamic> json) => Paint().copyWith(
     color: const ColorConverter().fromJson(json['color']),
     strokeWidth: json['strokeWidth'],
-    strokeCap: const StrokeCapConverter().fromJson(json['strokeCap']),
-    style: const PaintingStyleConverter().fromJson(json['style']),
-    strokeJoin: const StrokeJoinConverter().fromJson(json['strokeCap']),
-    blendMode: const BlendModeConverter().fromJson(json['blendMode']),
+    strokeCap: StrokeCap.values[json['strokeCap']],
+    style: PaintingStyle.values[json['style']],
+    strokeJoin: StrokeJoin.values[json['strokeCap']],
+    blendMode: BlendMode.values[json['blendMode']],
     isAntiAlias: json['isAntiAlias'],
   );
 
@@ -314,10 +202,10 @@ class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
   Map<String, dynamic> toJson(Paint object) => {
     'color': const ColorConverter().toJson(object.color),
     'strokeWidth': object.strokeWidth,
-    'strokeCap': const StrokeCapConverter().toJson(object.strokeCap),
-    'style': const PaintingStyleConverter().toJson(object.style),
-    'strokeJoin': const StrokeJoinConverter().toJson(object.strokeJoin),
-    'blendMode': const BlendModeConverter().toJson(object.blendMode),
+    'strokeCap': object.strokeCap.index,
+    'style': object.style.index,
+    'strokeJoin': object.strokeJoin.index,
+    'blendMode': object.blendMode.index,
     'isAntiAlias': object.isAntiAlias,
   };
 
@@ -329,17 +217,17 @@ class TextPainterConverter extends JsonConverter<TextPainter, Map<String, dynami
 
   @override
   TextPainter fromJson(Map<String, dynamic> json) => TextPainter().copyWith(
-    textAlign: const TextAlignConverter().fromJson(json['align']),
-    textDirection: json.containsKey('direction') ? const TextDirectionConverter().fromJson(json['direction'])
+    textAlign: TextAlign.values[json['align']],
+    textDirection: json.containsKey('direction') ? TextDirection.values[json['direction']]
       : null,
     textScaleFactor: json['scaleFactor'],
   );
 
   @override
   Map<String, dynamic> toJson(TextPainter object) => {
-    'align': const TextAlignConverter().toJson(object.textAlign),
+    'align': object.textAlign.index,
     if(object.textDirection != null)
-      'direction': const TextDirectionConverter().toJson(object.textDirection!),
+      'direction': object.textDirection!.index,
     'scaleFactor': object.textScaleFactor,
   };
 
