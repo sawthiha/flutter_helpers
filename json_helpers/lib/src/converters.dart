@@ -167,6 +167,26 @@ class NullableOffsetConverter extends JsonConverter<Offset?, List<double>>  {
 
 }
 
+/// Offset Itreable Json Converter
+class OffsetIterableConverter extends JsonConverter<Iterable<Offset>, Iterable<List<double>>>  {
+
+  /// Const Constructor (Necessary for Annotation)
+  const OffsetIterableConverter();
+
+  @override
+  Iterable<Offset> fromJson(Iterable<List<double>> json) => [
+    for (var offsetJson in json)
+      Offset(offsetJson[0], offsetJson[1])
+  ];
+
+  @override
+  Iterable<List<double>> toJson(Iterable<Offset> object) => [
+    for (var offset in object)
+      <double>[offset.dx, offset.dy],
+  ];
+
+}
+
 /// FontWeight Json Converter
 class FontWeightConverter extends JsonConverter<FontWeight, int>  {
 
