@@ -304,3 +304,55 @@ class TextDecorationConverter extends JsonConverter<TextDecoration, List<String>
   ];
 
 }
+
+class NullableFontWeightConverter extends JsonConverter<FontWeight?, int>  {
+
+  const NullableFontWeightConverter();
+
+  @override
+  FontWeight? fromJson(int json) => json < 0 ? null
+    : FontWeight.values[json];
+
+  @override
+  int toJson(FontWeight? object) => object?.index ?? -1;
+
+}
+
+class NullableFontStyleConverter extends JsonConverter<FontStyle?, int>  {
+
+  const NullableFontStyleConverter();
+
+  @override
+  FontStyle? fromJson(int json) => json < 0 ? null
+    : FontStyle.values[json];
+
+  @override
+  int toJson(FontStyle? object) => object?.index ?? -1;
+
+}
+
+class TextStyleConverter extends JsonConverter<TextStyle, Map<String, dynamic>>  {
+
+  const TextStyleConverter();
+
+  @override
+  TextStyle fromJson(Map<String, dynamic> json) => TextStyle(
+    fontFamily: json['family'],
+    fontSize: json['size'],
+    fontWeight: const NullableFontWeightConverter().fromJson(json['weight']),
+    fontStyle: const NullableFontStyleConverter().fromJson(json['style']),
+    color: const NullableColorConverter().fromJson(json['color']),
+    backgroundColor: const NullableColorConverter().fromJson(json['backgroundColor']),
+  );
+
+  @override
+  Map<String, dynamic> toJson(TextStyle object) => {
+    'family': object.fontFamily,
+    'size': object.fontSize,
+    'weight': const NullableFontWeightConverter().toJson(object.fontWeight),
+    'style': const NullableFontStyleConverter().toJson(object.fontStyle),
+    'color': const NullableColorConverter().toJson(object.color),
+    'backgroundColor': const NullableColorConverter().toJson(object.backgroundColor),
+  };
+
+}
