@@ -344,3 +344,35 @@ class TextPainterConverter extends JsonConverter<TextPainter, Map<String, dynami
   };
 
 }
+
+class TextDecorationConverter extends JsonConverter<TextDecoration, List<String>>  {
+
+  const TextDecorationConverter();
+
+  @override
+  TextDecoration fromJson(List<String> json) => TextDecoration.combine(
+    [
+      if(json.contains('none'))
+        TextDecoration.none,
+      if(json.contains('overline'))
+        TextDecoration.overline,
+      if(json.contains('underline'))
+        TextDecoration.underline,
+      if(json.contains('lineThrough'))
+        TextDecoration.lineThrough,
+    ]
+  );
+
+  @override
+  List<String> toJson(TextDecoration object) =>  [
+    if(object.contains(TextDecoration.none))
+      'none',
+    if(object.contains(TextDecoration.overline))
+      'overline',
+    if(object.contains(TextDecoration.underline))
+      'underline',
+    if(object.contains(TextDecoration.lineThrough))
+      'lineThrough',
+  ];
+
+}
