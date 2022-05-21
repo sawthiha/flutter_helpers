@@ -356,3 +356,52 @@ class TextStyleConverter extends JsonConverter<TextStyle, Map<String, dynamic>> 
   };
 
 }
+
+/// BorderRadius to json converter
+class BorderRadiusConverter extends JsonConverter<BorderRadius, Map<String, dynamic>>  {
+
+  /// Radius Converter
+  final RadiusConverter radiusConverter;
+
+  /// Const Constructor for annotations
+  const BorderRadiusConverter(
+    {
+      this.radiusConverter = const RadiusConverter(),
+    }
+  );
+
+  @override
+  BorderRadius fromJson(Map<String, dynamic> json) => BorderRadius.only(
+    topLeft: radiusConverter.fromJson(json['topLeft']),
+    topRight: radiusConverter.fromJson(json['topRight']),
+    bottomLeft: radiusConverter.fromJson(json['bottomLeft']),
+    bottomRight: radiusConverter.fromJson(json['bottomRight']),
+  );
+
+  @override
+  Map<String, dynamic> toJson(BorderRadius object) => <String, dynamic>{
+    'topLeft': radiusConverter.toJson(object.topLeft),
+    'topRight': radiusConverter.toJson(object.topRight),
+    'bottomLeft': radiusConverter.toJson(object.bottomLeft),
+    'bottomRight': radiusConverter.toJson(object.bottomRight),
+  };
+
+}
+
+/// Radius to Json converter
+class RadiusConverter extends JsonConverter<Radius, Map<String, dynamic>>  {
+
+  /// Const Constructor for annotations
+  const RadiusConverter();
+
+  @override
+  Radius fromJson(Map<String, dynamic> json)
+    => Radius.elliptical(json['x'], json['y']);
+
+  @override
+  Map<String, dynamic> toJson(Radius object) => <String, dynamic>{
+    'x': object.x,
+    'y': object.y,
+  };
+
+}
