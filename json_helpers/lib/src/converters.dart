@@ -251,6 +251,27 @@ class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
 
 }
 
+/// Nullable Paint Json Converter
+class NullablePaintConverter extends JsonConverter<Paint?, Map<String, dynamic>>  {
+
+  final PaintConverter paintConverter;
+
+  /// Const Constructor (Necessary for Annotation)
+  const NullablePaintConverter({
+    this.paintConverter = const PaintConverter(),
+  });
+
+  @override
+  Paint? fromJson(Map<String, dynamic> json)
+    => json.isNotEmpty ? paintConverter.fromJson(json): null;
+
+  @override
+  Map<String, dynamic> toJson(Paint? object)
+    => object != null ? paintConverter.toJson(object)
+    : <String, dynamic>{};
+
+}
+
 class TextPainterConverter extends JsonConverter<TextPainter, Map<String, dynamic>>  {
 
   const TextPainterConverter();
@@ -333,26 +354,42 @@ class NullableFontStyleConverter extends JsonConverter<FontStyle?, int>  {
 
 class TextStyleConverter extends JsonConverter<TextStyle, Map<String, dynamic>>  {
 
-  const TextStyleConverter();
+  final NullablePaintConverter nullablePaintConverter;
+  final NullableFontWeightConverter nullableFontWeightConverter;
+  final NullableColorConverter nullableColorConverter;
+  final NullableFontStyleConverter nullableFontStyleConverter;
+
+  const TextStyleConverter(
+    {
+      this.nullablePaintConverter = const NullablePaintConverter(),
+      this.nullableColorConverter = const NullableColorConverter(),
+      this.nullableFontStyleConverter = const NullableFontStyleConverter(),
+      this.nullableFontWeightConverter = const NullableFontWeightConverter(),
+    }
+  );
 
   @override
   TextStyle fromJson(Map<String, dynamic> json) => TextStyle(
     fontFamily: json['family'],
     fontSize: json['size'],
-    fontWeight: const NullableFontWeightConverter().fromJson(json['weight']),
-    fontStyle: const NullableFontStyleConverter().fromJson(json['style']),
-    color: const NullableColorConverter().fromJson(json['color']),
-    backgroundColor: const NullableColorConverter().fromJson(json['backgroundColor']),
+    fontWeight: nullableFontWeightConverter.fromJson(json['weight']),
+    fontStyle: nullableFontStyleConverter.fromJson(json['style']),
+    color: nullableColorConverter.fromJson(json['color']),
+    backgroundColor: nullableColorConverter.fromJson(json['backgroundColor']),
+    foreground: nullablePaintConverter.fromJson(json['foregroundPaint']),
+    background: nullablePaintConverter.fromJson(json['backgroundPaint']),
   );
 
   @override
   Map<String, dynamic> toJson(TextStyle object) => {
     'family': object.fontFamily,
     'size': object.fontSize,
-    'weight': const NullableFontWeightConverter().toJson(object.fontWeight),
-    'style': const NullableFontStyleConverter().toJson(object.fontStyle),
-    'color': const NullableColorConverter().toJson(object.color),
-    'backgroundColor': const NullableColorConverter().toJson(object.backgroundColor),
+    'weight': nullableFontWeightConverter.toJson(object.fontWeight),
+    'style': nullableFontStyleConverter.toJson(object.fontStyle),
+    'color': nullableColorConverter.toJson(object.color),
+    'backgroundColor': nullableColorConverter.toJson(object.backgroundColor),
+    'foregroundPaint': nullablePaintConverter.toJson(object.foreground),
+    'backgroundPaint': nullablePaintConverter.toJson(object.background),
   };
 
 }
