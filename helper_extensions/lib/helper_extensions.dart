@@ -66,3 +66,11 @@ extension TextPainterExtension on TextPainter  {
   );
 
 }
+
+extension NumberExtension on num  {
+
+  /// Trim Redundant zero decimals
+  /// Source: https://stackoverflow.com/a/59963834/17673002
+  num get trimRedundantZeroDecimals => this % 1 == 0 ? toInt(): this;
+
+}
