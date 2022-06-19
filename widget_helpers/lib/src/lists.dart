@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of widget_helpers;
 
 class AnimatedListController<T>   {
   final GlobalKey<AnimatedListState> key;

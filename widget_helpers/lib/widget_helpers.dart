@@ -1,3 +1,7 @@
 library widget_helpers;
 
-export 'src/widgets.dart';
+part 'src/cards.dart';
+part 'src/containers.dart';
+part 'src/controls.dart';
+part 'src/lists.dart';
+part 'src/themes.dart';

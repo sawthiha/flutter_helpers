@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of widget_helpers;
 
 class SelectableWidgetController extends ValueNotifier  {
   

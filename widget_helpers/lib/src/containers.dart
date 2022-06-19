@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of widget_helpers;
 
 enum OverlayedContainerPosition  {
   top,
@@ -110,5 +110,4 @@ class _OverlayedContainerState extends State<OverlayedContainer> {
     );
   }
 }
-
 

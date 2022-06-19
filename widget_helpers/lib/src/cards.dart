@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of widget_helpers;
 
 class MaterialCard extends StatelessWidget{
   final Widget media;
