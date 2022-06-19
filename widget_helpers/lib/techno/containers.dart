@@ -74,7 +74,7 @@ class TechnoFloatingContainer extends StatelessWidget  {
 
 }
 
-class DialogContainer extends StatelessWidget {
+class TechnoDialogContainer extends StatelessWidget {
   final Size size;
   final BorderRadius borderRadius;
   final Widget child;
@@ -85,7 +85,7 @@ class DialogContainer extends StatelessWidget {
   final double foregroundOpacity;
   final double backgroundOpacity;
 
-  const DialogContainer({
+  const TechnoDialogContainer({
     Key? key,
     required this.child,
     this.closeButtonSize = 34.0,
