@@ -49,14 +49,14 @@ class TechnoGlassyContainer extends StatelessWidget  {
 
 }
 
-class TechnoFloatingSettingsContainer extends StatelessWidget  {
+class TechnoFloatingContainer extends StatelessWidget  {
 
   final double? width;
   final double? height;
   final BorderRadius borderRadius;
   final Widget child;
 
-  const TechnoFloatingSettingsContainer({Key? key,
+  const TechnoFloatingContainer({Key? key,
     required this.width,
     required this.height,
     required this.borderRadius,
