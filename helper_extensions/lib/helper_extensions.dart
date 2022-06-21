@@ -74,3 +74,10 @@ extension NumberExtension on num  {
   num get trimRedundantZeroDecimals => this % 1 == 0 ? toInt(): this;
 
 }
+
+extension StringValidation on String  {
+
+  /// Check if a string is ip v4 address
+  bool get isIpV4 => RegExp(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$").hasMatch(this);
+
+}
