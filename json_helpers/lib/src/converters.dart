@@ -87,19 +87,19 @@ class DurationConverter extends JsonConverter<Duration, int>  {
 }
 
 /// List of Duration Json Converter
-class DurationListConverter extends JsonConverter<List<Duration>, List<int>>  {
+class DurationListConverter extends JsonConverter<List<Duration>, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const DurationListConverter();
 
   @override
-  List<Duration> fromJson(List<int> json) => [
+  List<Duration> fromJson(dynamic json) => [
     for (var durJson in json)
     Duration(microseconds: durJson),
   ];
 
   @override
-  List<int> toJson(List<Duration> object) => [
+  dynamic toJson(List<Duration> object) => [
     for (var duration in object)
       duration.inMicroseconds,
   ];
@@ -121,47 +121,47 @@ class DateTimeConverter extends JsonConverter<DateTime, String>  {
 }
 
 /// Matrix4 Json Converter
-class Matrix4Converter extends JsonConverter<Matrix4, List<double>>  {
+class Matrix4Converter extends JsonConverter<Matrix4, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const Matrix4Converter();
 
   @override
-  Matrix4 fromJson(List<double> json)
+  Matrix4 fromJson(dynamic json)
     => Matrix4.fromList(json.toList());
 
   @override
-  List<double> toJson(Matrix4 object) => object.storage;
+  dynamic toJson(Matrix4 object) => object.storage;
 
 }
 
 /// Offset Json Converter
-class OffsetConverter extends JsonConverter<Offset, List<double>>  {
+class OffsetConverter extends JsonConverter<Offset, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const OffsetConverter();
 
   @override
-  Offset fromJson(List<double> json) => Offset(json[0], json[1]);
+  Offset fromJson(dynamic json) => Offset(json[0], json[1]);
 
   @override
-  List<double> toJson(Offset object) => <double>[object.dx, object.dy];
+  dynamic toJson(Offset object) => <double>[object.dx, object.dy];
 
 }
 
 /// Offset Json Converter
-class NullableOffsetConverter extends JsonConverter<Offset?, List<double>>  {
+class NullableOffsetConverter extends JsonConverter<Offset?, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const NullableOffsetConverter();
 
   @override
-  Offset? fromJson(List<double> json)
+  Offset? fromJson(dynamic json)
     => json.isEmpty ? null
       : Offset(json[0], json[1]);
 
   @override
-  List<double> toJson(Offset? object)
+  dynamic toJson(Offset? object)
     => object != null ? <double>[object.dx, object.dy]
     : <double>[];
 
@@ -294,12 +294,12 @@ class TextPainterConverter extends JsonConverter<TextPainter, Map<String, dynami
 
 }
 
-class TextDecorationConverter extends JsonConverter<TextDecoration, List<String>>  {
+class TextDecorationConverter extends JsonConverter<TextDecoration, dynamic>  {
 
   const TextDecorationConverter();
 
   @override
-  TextDecoration fromJson(List<String> json) => TextDecoration.combine(
+  TextDecoration fromJson(dynamic json) => TextDecoration.combine(
     [
       if(json.contains('none'))
         TextDecoration.none,
@@ -313,7 +313,7 @@ class TextDecorationConverter extends JsonConverter<TextDecoration, List<String>
   );
 
   @override
-  List<String> toJson(TextDecoration object) =>  [
+  dynamic toJson(TextDecoration object) =>  [
     if(object.contains(TextDecoration.none))
       'none',
     if(object.contains(TextDecoration.overline))
