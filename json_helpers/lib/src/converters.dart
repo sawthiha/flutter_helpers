@@ -128,7 +128,7 @@ class Matrix4Converter extends JsonConverter<Matrix4, dynamic>  {
 
   @override
   Matrix4 fromJson(dynamic json)
-    => Matrix4.fromList(json.toList());
+    => Matrix4.fromList(json.cast<double>().toList());
 
   @override
   dynamic toJson(Matrix4 object) => object.storage;
