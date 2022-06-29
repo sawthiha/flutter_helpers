@@ -168,19 +168,19 @@ class NullableOffsetConverter extends JsonConverter<Offset?, List<double>>  {
 }
 
 /// Offset Itreable Json Converter
-class OffsetIterableConverter extends JsonConverter<Iterable<Offset>, Iterable<List<double>>>  {
+class OffsetIterableConverter extends JsonConverter<Iterable<Offset>, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const OffsetIterableConverter();
 
   @override
-  Iterable<Offset> fromJson(Iterable<List<double>> json) => [
+  Iterable<Offset> fromJson(dynamic json) => [
     for (var offsetJson in json)
       Offset(offsetJson[0], offsetJson[1])
   ];
 
   @override
-  Iterable<List<double>> toJson(Iterable<Offset> object) => [
+  dynamic toJson(Iterable<Offset> object) => [
     for (var offset in object)
       <double>[offset.dx, offset.dy],
   ];
@@ -188,19 +188,19 @@ class OffsetIterableConverter extends JsonConverter<Iterable<Offset>, Iterable<L
 }
 
 /// Offset List Json Converter
-class OffsetListConverter extends JsonConverter<List<Offset>, Iterable<List<double>>>  {
+class OffsetListConverter extends JsonConverter<List<Offset>, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const OffsetListConverter();
 
   @override
-  List<Offset> fromJson(Iterable<List<double>> json) => [
+  List<Offset> fromJson(dynamic json) => [
     for (var offsetJson in json)
       Offset(offsetJson[0], offsetJson[1])
   ];
 
   @override
-  Iterable<List<double>> toJson(List<Offset> object) => [
+  dynamic toJson(List<Offset> object) => [
     for (var offset in object)
       <double>[offset.dx, offset.dy],
   ];
