@@ -30,18 +30,18 @@ class NullableColorConverter extends JsonConverter<Color?, int>  {
 }
 
 /// Size Json Converter
-class SizeConverter extends JsonConverter<Size, Map<String, dynamic>>  {
+class SizeConverter extends JsonConverter<Size, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const SizeConverter();
 
   @override
-  Size fromJson(Map<String, dynamic> json) => Size(
+  Size fromJson(dynamic json) => Size(
     json['width'], json['height']
   );
 
   @override
-  Map<String, dynamic> toJson(Size object) => {
+  dynamic toJson(Size object) => {
     'width': object.width,
     'height': object.height,
   };
@@ -49,20 +49,20 @@ class SizeConverter extends JsonConverter<Size, Map<String, dynamic>>  {
 }
 
 /// Nullable Size Json Converter
-class NullableSizeConverter extends JsonConverter<Size?, Map<String, dynamic>>  {
+class NullableSizeConverter extends JsonConverter<Size?, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const NullableSizeConverter();
 
   @override
-  Size? fromJson(Map<String, dynamic> json)
+  Size? fromJson(dynamic json)
     => json.containsKey('width') && json.containsKey('height') ?
       Size(
         json['width'], json['height']
       ): null;
 
   @override
-  Map<String, dynamic> toJson(Size? object) => <String, dynamic>{
+  dynamic toJson(Size? object) => <String, dynamic>{
     if(object != null)
       ...{
         'width': object.width,
@@ -222,13 +222,13 @@ class FontWeightConverter extends JsonConverter<FontWeight, int>  {
 }
 
 /// Paint Json Converter
-class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
+class PaintConverter extends JsonConverter<Paint, dynamic>  {
 
   /// Const Constructor (Necessary for Annotation)
   const PaintConverter();
 
   @override
-  Paint fromJson(Map<String, dynamic> json) => Paint().copyWith(
+  Paint fromJson(dynamic json) => Paint().copyWith(
     color: const ColorConverter().fromJson(json['color']),
     strokeWidth: json['strokeWidth'],
     strokeCap: StrokeCap.values[json['strokeCap']],
@@ -239,7 +239,7 @@ class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
   );
 
   @override
-  Map<String, dynamic> toJson(Paint object) => {
+  dynamic toJson(Paint object) => {
     'color': const ColorConverter().toJson(object.color),
     'strokeWidth': object.strokeWidth,
     'strokeCap': object.strokeCap.index,
@@ -252,7 +252,7 @@ class PaintConverter extends JsonConverter<Paint, Map<String, dynamic>>  {
 }
 
 /// Nullable Paint Json Converter
-class NullablePaintConverter extends JsonConverter<Paint?, Map<String, dynamic>>  {
+class NullablePaintConverter extends JsonConverter<Paint?, dynamic>  {
 
   final PaintConverter paintConverter;
 
@@ -262,22 +262,22 @@ class NullablePaintConverter extends JsonConverter<Paint?, Map<String, dynamic>>
   });
 
   @override
-  Paint? fromJson(Map<String, dynamic> json)
+  Paint? fromJson(dynamic json)
     => json.isNotEmpty ? paintConverter.fromJson(json): null;
 
   @override
-  Map<String, dynamic> toJson(Paint? object)
+  dynamic toJson(Paint? object)
     => object != null ? paintConverter.toJson(object)
     : <String, dynamic>{};
 
 }
 
-class TextPainterConverter extends JsonConverter<TextPainter, Map<String, dynamic>>  {
+class TextPainterConverter extends JsonConverter<TextPainter, dynamic>  {
 
   const TextPainterConverter();
 
   @override
-  TextPainter fromJson(Map<String, dynamic> json) => TextPainter().copyWith(
+  TextPainter fromJson(dynamic json) => TextPainter().copyWith(
     textAlign: TextAlign.values[json['align']],
     textDirection: json.containsKey('direction') ? TextDirection.values[json['direction']]
       : null,
@@ -285,7 +285,7 @@ class TextPainterConverter extends JsonConverter<TextPainter, Map<String, dynami
   );
 
   @override
-  Map<String, dynamic> toJson(TextPainter object) => {
+  dynamic toJson(TextPainter object) => {
     'align': object.textAlign.index,
     if(object.textDirection != null)
       'direction': object.textDirection!.index,
@@ -352,7 +352,7 @@ class NullableFontStyleConverter extends JsonConverter<FontStyle?, int>  {
 
 }
 
-class TextStyleConverter extends JsonConverter<TextStyle, Map<String, dynamic>>  {
+class TextStyleConverter extends JsonConverter<TextStyle, dynamic>  {
 
   final NullablePaintConverter nullablePaintConverter;
   final NullableFontWeightConverter nullableFontWeightConverter;
@@ -369,7 +369,7 @@ class TextStyleConverter extends JsonConverter<TextStyle, Map<String, dynamic>> 
   );
 
   @override
-  TextStyle fromJson(Map<String, dynamic> json) => TextStyle(
+  TextStyle fromJson(dynamic json) => TextStyle(
     fontFamily: json['family'],
     fontSize: json['size'],
     fontWeight: nullableFontWeightConverter.fromJson(json['weight']),
@@ -381,7 +381,7 @@ class TextStyleConverter extends JsonConverter<TextStyle, Map<String, dynamic>> 
   );
 
   @override
-  Map<String, dynamic> toJson(TextStyle object) => {
+  dynamic toJson(TextStyle object) => {
     'family': object.fontFamily,
     'size': object.fontSize,
     'weight': nullableFontWeightConverter.toJson(object.fontWeight),
@@ -395,7 +395,7 @@ class TextStyleConverter extends JsonConverter<TextStyle, Map<String, dynamic>> 
 }
 
 /// BorderRadius to json converter
-class BorderRadiusConverter extends JsonConverter<BorderRadius, Map<String, dynamic>>  {
+class BorderRadiusConverter extends JsonConverter<BorderRadius, dynamic>  {
 
   /// Radius Converter
   final RadiusConverter radiusConverter;
@@ -408,7 +408,7 @@ class BorderRadiusConverter extends JsonConverter<BorderRadius, Map<String, dyna
   );
 
   @override
-  BorderRadius fromJson(Map<String, dynamic> json) => BorderRadius.only(
+  BorderRadius fromJson(dynamic json) => BorderRadius.only(
     topLeft: radiusConverter.fromJson(json['topLeft']),
     topRight: radiusConverter.fromJson(json['topRight']),
     bottomLeft: radiusConverter.fromJson(json['bottomLeft']),
@@ -416,7 +416,7 @@ class BorderRadiusConverter extends JsonConverter<BorderRadius, Map<String, dyna
   );
 
   @override
-  Map<String, dynamic> toJson(BorderRadius object) => <String, dynamic>{
+  dynamic toJson(BorderRadius object) => <String, dynamic>{
     'topLeft': radiusConverter.toJson(object.topLeft),
     'topRight': radiusConverter.toJson(object.topRight),
     'bottomLeft': radiusConverter.toJson(object.bottomLeft),
@@ -426,17 +426,17 @@ class BorderRadiusConverter extends JsonConverter<BorderRadius, Map<String, dyna
 }
 
 /// Radius to Json converter
-class RadiusConverter extends JsonConverter<Radius, Map<String, dynamic>>  {
+class RadiusConverter extends JsonConverter<Radius, dynamic>  {
 
   /// Const Constructor for annotations
   const RadiusConverter();
 
   @override
-  Radius fromJson(Map<String, dynamic> json)
+  Radius fromJson(dynamic json)
     => Radius.elliptical(json['x'], json['y']);
 
   @override
-  Map<String, dynamic> toJson(Radius object) => <String, dynamic>{
+  dynamic toJson(Radius object) => <String, dynamic>{
     'x': object.x,
     'y': object.y,
   };
