@@ -71,6 +71,7 @@ class PopupMenuController extends GetxController  {
     required Radius radius,
     PopupMenuAlignment alignment = PopupMenuAlignment.bottom,
     Color? color,
+    List<BoxShadow> shadows = const <BoxShadow>[],
     bool isAttached = true,
   })  {
     rect = RRect.fromRectAndRadius(
@@ -82,6 +83,7 @@ class PopupMenuController extends GetxController  {
       controller: this,
       child: child,
       color: color,
+      shadows: shadows,
     );
   }
   WidgetBuilder getDraggablePopup(Widget child, {
@@ -94,6 +96,7 @@ class PopupMenuController extends GetxController  {
     Color? color,
     bool isAttached = true,
     VoidCallback? onClose,
+    List<BoxShadow> shadows = const <BoxShadow>[],
   })  {
     return getPopup(
       DraggablePopupMenu(
@@ -109,6 +112,7 @@ class PopupMenuController extends GetxController  {
       alignment: alignment,
       color: color,
       isAttached: isAttached,
+      shadows: shadows,
     );
   }
   
@@ -134,8 +138,14 @@ class PopupMenu extends StatelessWidget  {
   final Widget child;
   final PopupMenuController controller;
   final Color? color;
+  final List<BoxShadow> shadows;
 
-  const PopupMenu({super.key, required this.controller, required this.child, this.color});
+  const PopupMenu({super.key,
+    required this.controller,
+    required this.child,
+    this.color,
+    this.shadows = const <BoxShadow>[],
+  });
 
   @override
   Widget build(BuildContext context) => Obx(
@@ -144,13 +154,7 @@ class PopupMenu extends StatelessWidget  {
       child: Container(
         decoration: ShapeDecoration(
           color: color,
-          shadows: const [
-            BoxShadow(
-              color: TechnoColors.darkPrimary,
-              blurRadius: 4.0,
-              offset: Offset(0.0, 4.0),
-            )
-          ],
+          shadows: shadows,
           shape: PopupMenuShape(controller, controller.isAttached)
         ),
         child: child
