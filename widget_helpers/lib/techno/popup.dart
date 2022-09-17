@@ -207,7 +207,7 @@ class PopupMenuShape extends ShapeBorder {
       dx1 = dx2 = rect.left;
       dx3 = dx1 - height;
       
-      dy1 = target.center.dy.clamp(rect.top, rect.bottom - base);
+      dy1 = (target.center.dy - base / 2).clamp(rect.top, rect.bottom - base);
       dy2 = dy1 + base;
       dy3 = dy1 + (base / 2);
     } else if(target.center.dx > rect.right)  {
@@ -215,7 +215,7 @@ class PopupMenuShape extends ShapeBorder {
       dx1 = dx2 = rect.right;
       dx3 = dx1 + height;
 
-      dy1 = target.center.dy.clamp(rect.top, rect.bottom - base);
+      dy1 = (target.center.dy - base / 2).clamp(rect.top, rect.bottom - base);
       dy2 = dy1 + base;
       dy3 = dy1 + (base / 2);
     } else if(target.center.dy < rect.top)  {
@@ -223,7 +223,7 @@ class PopupMenuShape extends ShapeBorder {
       dy1 = dy2 = rect.top;
       dy3 = dy1 - height;
 
-      dx1 = target.center.dx.clamp(rect.left, rect.right - base);
+      dx1 = (target.center.dx - base / 2).clamp(rect.left, rect.right - base);
       dx2 = dx1 + base;
       dx3 = dx1 + (base / 2);
     } else  {
@@ -231,7 +231,7 @@ class PopupMenuShape extends ShapeBorder {
       dy1 = dy2 = rect.bottom;
       dy3 = dy1 + height;
 
-      dx1 = target.center.dx.clamp(rect.left, rect.right - base);
+      dx1 = (target.center.dx - base / 2).clamp(rect.left, rect.right - base);
       dx2 = dx1 + base;
       dx3 = dx1 + (base / 2);
     }
