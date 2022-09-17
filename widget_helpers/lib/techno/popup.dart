@@ -93,11 +93,13 @@ class PopupMenuController extends GetxController  {
     PopupMenuAlignment alignment = PopupMenuAlignment.bottom,
     Color? color,
     bool isAttached = true,
+    VoidCallback? onClose,
   })  {
     return getPopup(
       DraggablePopupMenu(
         controller: this,
         child: child,
+        onClose: onClose,
         draggableSize: draggableSize,
         draggableArea: draggableArea,
       ),
