@@ -79,7 +79,7 @@ class _OverlayedContainerState extends State<OverlayedContainer> {
       () {
         if (widget.overlaySwitch.value) {
           _overlayEntry = _overlayWidget;
-          Overlay.of(context)!.insert(_overlayEntry);
+          Overlay.of(context).insert(_overlayEntry);
         } else {
           _overlayEntry.remove();
         }
