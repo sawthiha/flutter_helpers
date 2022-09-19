@@ -82,8 +82,9 @@ class PopupMenuController extends GetxController  {
     Color? color,
     List<BoxShadow> shadows = const <BoxShadow>[],
     bool isAttached = true,
+    RRect? initialRRect,
   })  {
-    rect = RRect.fromRectAndRadius(
+    rect = initialRRect ?? RRect.fromRectAndRadius(
       alignment.toRect(targetRect, size, offset, arrowTriangleHeight),
         radius
     );
@@ -106,6 +107,7 @@ class PopupMenuController extends GetxController  {
     bool isAttached = true,
     VoidCallback? onClose,
     List<BoxShadow> shadows = const <BoxShadow>[],
+    RRect? initialRRect,
   })  {
     return getPopup(
       DraggablePopupMenu(
@@ -122,6 +124,7 @@ class PopupMenuController extends GetxController  {
       color: color,
       isAttached: isAttached,
       shadows: shadows,
+      initialRRect: initialRRect,
     );
   }
   
