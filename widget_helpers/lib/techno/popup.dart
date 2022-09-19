@@ -41,9 +41,12 @@ class PopupMenuController extends GetxController  {
   final double arrowTriangleBase;
   final double arrowTriangleHeight;
 
+  final void Function(PopupMenuController)? onDetach;
+
   PopupMenuController({
     this.arrowTriangleBase = 15,
     this.arrowTriangleHeight = 10,
+    this.onDetach,
   });
 
   final Rx<RRect> _rect = RRect.zero.obs;
@@ -53,9 +56,15 @@ class PopupMenuController extends GetxController  {
   }
   void translate(Offset offset)  {
     _rect.value = _rect.value.shift(offset);
-    _isAttached.value = false;
+    isAttached = false;
   }
   final RxBool _isAttached = true.obs;
+  set isAttached(bool isAtt)  {
+    _isAttached.value = isAtt;
+    if(!isAttached)  {
+      onDetach?.call(this);
+    }
+  }
   bool get isAttached => _isAttached.value;
 
   Rect get targetRect  {
@@ -78,7 +87,7 @@ class PopupMenuController extends GetxController  {
       alignment.toRect(targetRect, size, offset, arrowTriangleHeight),
         radius
     );
-    _isAttached.value = true;
+    _isAttached.value = isAttached;
     return (context) => PopupMenu(
       controller: this,
       child: child,
