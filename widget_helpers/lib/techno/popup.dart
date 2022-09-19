@@ -60,10 +60,10 @@ class PopupMenuController extends GetxController  {
   }
   final RxBool _isAttached = true.obs;
   set isAttached(bool isAtt)  {
-    _isAttached.value = isAtt;
-    if(!isAttached)  {
+    if(isAttached && !isAtt)  {
       onDetach?.call(this);
     }
+    _isAttached.value = isAtt;
   }
   bool get isAttached => _isAttached.value;
 
