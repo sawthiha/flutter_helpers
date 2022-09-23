@@ -1,7 +1,12 @@
 library widget_helpers;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+import 'package:vector_math/vector_math_64.dart' as vmath;
 
 part 'src/cards.dart';
 part 'src/containers.dart';
