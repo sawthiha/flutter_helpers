@@ -442,3 +442,25 @@ class RadiusConverter extends JsonConverter<Radius, dynamic>  {
   };
 
 }
+
+class RectConverter extends JsonConverter<Rect, dynamic>  {
+
+  static const offsetConverter = OffsetConverter();
+
+  const RectConverter();
+
+  @override
+  Rect fromJson(json) => Rect.fromCenter(
+    center: offsetConverter.fromJson(json['center']),
+    width: json['width'],
+    height: json['height'],
+  );
+
+  @override
+  toJson(Rect object) => {
+    'center': offsetConverter.toJson(object.center),
+    'width': object.width,
+    'height': object.height,
+  };
+
+}
