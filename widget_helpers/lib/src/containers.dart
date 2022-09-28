@@ -244,3 +244,55 @@ class _PerspectiveContainerState extends State<PerspectiveContainer> {
   );
 
 }
+
+class ElapsingOpacityContainer extends HookWidget   {
+
+  final Duration timeout;
+  final Duration duration;
+  final Widget child;
+  final double minOpacity, maxOpacity;
+
+  const ElapsingOpacityContainer({super.key,
+    required this.child,
+    this.timeout = const Duration(seconds: 2, milliseconds: 500),
+    this.duration = const Duration(milliseconds: 300),
+    this.minOpacity = 0.3,
+    this.maxOpacity = 1.0,
+  });
+
+  @override
+  Widget build(BuildContext context)  {
+    final isElapsedNoti = useState(false);
+    void elapse()  {
+      isElapsedNoti.value = true;
+    }
+    Timer timer = Timer(timeout, elapse);
+    void activate()  {
+      timer.cancel();
+      isElapsedNoti.value = false;
+      timer = Timer(timeout, elapse);
+    }
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: activate,
+      onPanStart: (details) {
+        activate();
+      },
+      onPanUpdate: (details) {
+        activate();
+      },
+      onPanEnd: (details)  {
+        activate();
+      },
+      child: ValueListenableBuilder<bool>(
+        valueListenable: isElapsedNoti,
+        builder: (context, isElapsed, _) => AnimatedOpacity(
+          opacity: isElapsed ? minOpacity: maxOpacity,
+          duration: duration,
+          child: child,
+        ),
+      ),
+    );
+  }
+
+}
