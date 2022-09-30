@@ -81,3 +81,22 @@ extension StringValidation on String  {
   bool get isIpV4 => RegExp(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$").hasMatch(this);
 
 }
+
+extension OffsetPathExtension on Iterable<Offset>  {
+  
+  /// Get path from the offsets given that they are not relative
+  Path get toPath  {
+    final path = Path();
+    if (isNotEmpty) {
+      path.moveTo(first.dx, first.dy);
+      for (var offset in skip(1)) {
+        path.lineTo(offset.dx, offset.dy);
+      }
+    }
+    return path;
+  }
+
+  /// Get bound containing the offset
+  Rect get toBound => toPath.getBounds();
+
+}
