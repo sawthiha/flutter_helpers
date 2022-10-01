@@ -1,8 +1,10 @@
 library helper_extensions;
 
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/painting.dart';
+import 'package:vector_math/vector_math_64.dart' as vmath;
 
 extension PaintExtension on Paint  {
   Paint copyWith(
@@ -98,5 +100,18 @@ extension OffsetPathExtension on Iterable<Offset>  {
 
   /// Get bound containing the offset
   Rect get toBound => toPath.getBounds();
+
+}
+
+extension OffsetHelpers on Offset   {
+
+  double angle(Offset origin, Offset offset)  {
+    final p0 = offset - origin;
+    final p1 = this - origin;
+    final vec0 = vmath.Vector2.zero();
+    final vec1 = vmath.Vector2(p0.dx, p0.dy);
+    final vec2 = vmath.Vector2(p1.dx, p1.dy);
+    return acos(vec1.dot(vec2) / (vec0.distanceTo(vec1) * vec0.distanceTo(vec2)));
+  }
 
 }
