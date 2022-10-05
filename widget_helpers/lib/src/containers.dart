@@ -150,27 +150,27 @@ class PerspectiveController extends GetxController  {
     _updateRotation();
   }
 
-  final _rotation = vmath.Vector3(0.0, 0.0, 0.0).obs;
-  double get rotationX => _rotation.value.storage[0];
+  final rotationRx = vmath.Vector3(0.0, 0.0, 0.0).obs;
+  double get rotationX => rotationRx.value.storage[0];
   set rotationX(double rotation)  {
-    _rotation.value = _rotation.value.clone()
+    rotationRx.value = rotationRx.value.clone()
       ..storage[0] = rotation;
     _updateRotation();
   }
-  double get rotationY => _rotation.value.storage[1];
+  double get rotationY => rotationRx.value.storage[1];
   set rotationY(double rotation)  {
-    _rotation.value = _rotation.value.clone()
+    rotationRx.value = rotationRx.value.clone()
       ..storage[1] = rotation;
     _updateRotation();
   }
-  double get rotationZ => _rotation.value.storage[2];
+  double get rotationZ => rotationRx.value.storage[2];
   set rotationZ(double rotation)  {
-    _rotation.value = _rotation.value.clone()
+    rotationRx.value = rotationRx.value.clone()
       ..storage[2] = rotation;
     _updateRotation();
   }
   void setRotation(double x, double y, double z)  {
-    _rotation.value = _rotation.value.clone()
+    rotationRx.value = rotationRx.value.clone()
       ..storage[0] = x
       ..storage[1] = y
       ..storage[2] = z;
