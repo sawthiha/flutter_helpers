@@ -464,3 +464,15 @@ class RectConverter extends JsonConverter<Rect, dynamic>  {
   };
 
 }
+
+class BoxFitConverter extends JsonConverter<BoxFit, dynamic>  {
+
+  const BoxFitConverter();
+
+  @override
+  BoxFit fromJson(json) => BoxFit.values[json];
+
+  @override
+  toJson(BoxFit object) => object.index;
+
+}
