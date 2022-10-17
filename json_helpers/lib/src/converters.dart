@@ -476,3 +476,15 @@ class BoxFitConverter extends JsonConverter<BoxFit, dynamic>  {
   toJson(BoxFit object) => object.index;
 
 }
+
+class BlendModeConverter extends JsonConverter<BlendMode, dynamic>   {
+
+  const BlendModeConverter();
+  
+  @override
+  BlendMode fromJson(json) => BlendMode.values[json];
+  
+  @override
+  toJson(BlendMode object) => object.index;
+
+}
