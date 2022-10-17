@@ -488,3 +488,18 @@ class BlendModeConverter extends JsonConverter<BlendMode, dynamic>   {
   toJson(BlendMode object) => object.index;
 
 }
+
+class AlignmentConverter extends JsonConverter<Alignment, dynamic>  {
+
+  const AlignmentConverter();
+
+  @override
+  Alignment fromJson(json) => Alignment(json['x'], json['y']);
+
+  @override
+  toJson(Alignment object) => <String, dynamic>{
+    'x': object.x,
+    'y': object.y,
+  };
+
+}
