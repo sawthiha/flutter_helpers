@@ -425,6 +425,27 @@ class BorderRadiusConverter extends JsonConverter<BorderRadius, dynamic>  {
 
 }
 
+/// BorderRadius to json converter
+class NullableBorderRadiusConverter extends JsonConverter<BorderRadius?, dynamic>  {
+
+  /// Radius Converter
+  final BorderRadiusConverter radiusConverter;
+
+  /// Const Constructor for annotations
+  const NullableBorderRadiusConverter(
+    {
+      this.radiusConverter = const BorderRadiusConverter(),
+    }
+  );
+
+  @override
+  BorderRadius? fromJson(dynamic json) => json != null ? radiusConverter.fromJson(json): null;
+
+  @override
+  dynamic toJson(BorderRadius? object) => object != null ? radiusConverter.toJson(object): null;
+
+}
+
 /// Radius to Json converter
 class RadiusConverter extends JsonConverter<Radius, dynamic>  {
 
@@ -489,6 +510,20 @@ class BlendModeConverter extends JsonConverter<BlendMode, dynamic>   {
 
 }
 
+class NullableBlendModeConverter extends JsonConverter<BlendMode?, dynamic>   {
+
+  static const blendModeConverter = BlendModeConverter();
+
+  const NullableBlendModeConverter();
+  
+  @override
+  BlendMode? fromJson(json) => json < 0 ? null: BlendMode.values[json];
+  
+  @override
+  toJson(BlendMode? object) => object != null ? blendModeConverter.toJson(object): -1;
+
+}
+
 class AlignmentConverter extends JsonConverter<Alignment, dynamic>  {
 
   const AlignmentConverter();
@@ -501,5 +536,136 @@ class AlignmentConverter extends JsonConverter<Alignment, dynamic>  {
     'x': object.x,
     'y': object.y,
   };
+
+}
+
+class BoxShapeConverter extends JsonConverter<BoxShape, dynamic>  {
+
+  const BoxShapeConverter();
+
+  @override
+  BoxShape fromJson(json) => BoxShape.values[json];
+
+  @override
+  toJson(BoxShape object) => object.index;
+
+}
+
+class BorderStyleConverter extends JsonConverter<BorderStyle, dynamic>  {
+
+  const BorderStyleConverter();
+  
+  @override
+  BorderStyle fromJson(json) => BorderStyle.values[json];
+  
+  @override
+  toJson(BorderStyle object) => object.index;
+
+}
+
+class BorderSideConverter extends JsonConverter<BorderSide, dynamic>  {
+
+  static const colorConverter = ColorConverter();
+  static const styleConverter = BorderStyleConverter();
+
+  const BorderSideConverter();
+  
+  @override
+  BorderSide fromJson(json) => BorderSide(
+    color: colorConverter.fromJson(json['color']),
+    width: json['width'],
+    style: styleConverter.fromJson(json['style']),
+    strokeAlign: json['strokeAlign'],
+  );
+  
+  @override
+  toJson(BorderSide object) => <String, dynamic> {
+    'color': colorConverter.toJson(object.color),
+    'width': object.width,
+    'style': styleConverter.toJson(object.style),
+    'strokeAlign': object.strokeAlign,
+  };
+
+}
+
+class BorderConverter extends JsonConverter<Border, dynamic>  {
+
+  static const sideConverter = BorderSideConverter();
+
+  const BorderConverter();
+
+  @override
+  Border fromJson(json) => Border(
+    top: sideConverter.fromJson(json['top']),
+    right: sideConverter.fromJson(json['right']),
+    bottom: sideConverter.fromJson(json['bottom']),
+    left: sideConverter.fromJson(json['left']),
+  );
+
+  @override
+  toJson(Border object) => <String, dynamic>  {
+    'top': sideConverter.toJson(object.top),
+    'right': sideConverter.toJson(object.right),
+    'bottom': sideConverter.toJson(object.bottom),
+    'left': sideConverter.toJson(object.left),
+  };
+
+}
+
+class NullableBorderConverter extends JsonConverter<Border?, dynamic>  {
+
+  static const borderConverter = BorderConverter();
+
+  const NullableBorderConverter();
+
+  @override
+  Border? fromJson(json) => json != null ? borderConverter.fromJson(json): null;
+
+  @override
+  toJson(Border? object) => object != null ? borderConverter.toJson(object): null;
+
+}
+
+class BoxDecorationConverter extends JsonConverter<BoxDecoration, dynamic>  {
+
+  static const colorConveter = NullableColorConverter();
+  static const boxShapeConverter = BoxShapeConverter();
+  static const blendModeConverter = NullableBlendModeConverter();
+  static const borderRadiusConverter = NullableBorderRadiusConverter();
+  static const borderConverter = NullableBorderConverter();
+
+  const BoxDecorationConverter();
+
+  @override
+  BoxDecoration fromJson(json) => BoxDecoration(
+    color: colorConveter.fromJson(json['color']),
+    shape: boxShapeConverter.fromJson(json['shape']),
+    backgroundBlendMode: blendModeConverter.fromJson(json['blendMode']),
+    borderRadius: borderRadiusConverter.fromJson(json['borderRadius']),
+    border: borderConverter.fromJson(json['border']),
+  );
+
+  @override
+  toJson(BoxDecoration object) => {
+    'color': colorConveter.toJson(object.color),
+    'shape': boxShapeConverter.toJson(object.shape),
+    'blendMode': blendModeConverter.toJson(object.backgroundBlendMode),
+    'borderRadius': borderRadiusConverter.toJson(object.borderRadius?.resolve(null)),
+    'border': borderConverter.toJson(object.border is Border? ? (object.border as Border): null),
+  };
+
+}
+
+class NullableBoxDecorationConverter extends JsonConverter<BoxDecoration?, dynamic>  {
+
+  static const converter = BoxDecorationConverter();
+
+  const NullableBoxDecorationConverter();
+
+  @override
+  BoxDecoration? fromJson(json) => json != null ? converter.fromJson(json): null;
+
+  @override
+  toJson(BoxDecoration? object) => object != null ? converter.toJson(object): null;
 
 }
