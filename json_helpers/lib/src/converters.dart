@@ -439,10 +439,10 @@ class NullableBorderRadiusConverter extends JsonConverter<BorderRadius?, dynamic
   );
 
   @override
-  BorderRadius? fromJson(dynamic json) => json != null ? radiusConverter.fromJson(json): null;
+  BorderRadius? fromJson(dynamic json) => json.isNotEmpty ? radiusConverter.fromJson(json): null;
 
   @override
-  dynamic toJson(BorderRadius? object) => object != null ? radiusConverter.toJson(object): null;
+  dynamic toJson(BorderRadius? object) => object != null ? radiusConverter.toJson(object): <String, dynamic>{};
 
 }
 
@@ -619,10 +619,10 @@ class NullableBorderConverter extends JsonConverter<Border?, dynamic>  {
   const NullableBorderConverter();
 
   @override
-  Border? fromJson(json) => json != null ? borderConverter.fromJson(json): null;
+  Border? fromJson(json) => json.isNotEmpty ? borderConverter.fromJson(json): null;
 
   @override
-  toJson(Border? object) => object != null ? borderConverter.toJson(object): null;
+  toJson(Border? object) => object != null ? borderConverter.toJson(object): <String, dynamic>{};
 
 }
 
@@ -663,9 +663,9 @@ class NullableBoxDecorationConverter extends JsonConverter<BoxDecoration?, dynam
   const NullableBoxDecorationConverter();
 
   @override
-  BoxDecoration? fromJson(json) => json != null ? converter.fromJson(json): null;
+  BoxDecoration? fromJson(json) => json.isNotEmpty ? converter.fromJson(json): null;
 
   @override
-  toJson(BoxDecoration? object) => object != null ? converter.toJson(object): null;
+  toJson(BoxDecoration? object) => object != null ? converter.toJson(object): <String, dynamic>{ };
 
 }
