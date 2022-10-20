@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 
 import 'package:dart_generics/dart_generics.dart';
 
-import 'mock.dart';
+import '../mock.dart';
 
 void main() {
   const valid = Container(20, -5.0);

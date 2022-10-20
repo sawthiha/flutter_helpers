@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'mock.dart';
+import '../mock.dart';
 
 void main()  {
   group('Observer Test',
