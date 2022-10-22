@@ -551,6 +551,20 @@ class BoxShapeConverter extends JsonConverter<BoxShape, dynamic>  {
 
 }
 
+class NullableBoxShapeConverter extends JsonConverter<BoxShape?, dynamic>  {
+
+  static const boxShapeConverter = BoxShapeConverter();
+
+  const NullableBoxShapeConverter();
+
+  @override
+  BoxShape? fromJson(json) => json >= 0 ? boxShapeConverter.fromJson(json): null;
+
+  @override
+  toJson(BoxShape? object) => object != null ? boxShapeConverter.toJson(object): -1;
+
+}
+
 class BorderStyleConverter extends JsonConverter<BorderStyle, dynamic>  {
 
   const BorderStyleConverter();
