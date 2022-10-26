@@ -29,6 +29,26 @@ class NullableColorConverter extends JsonConverter<Color?, int>  {
 
 }
 
+class ColorListConverter extends JsonConverter<List<Color>, dynamic>  {
+
+  static const colorConverter = ColorConverter();
+
+  const ColorListConverter();
+
+  @override
+  List<Color> fromJson(json) => [
+    for(var color in json)
+      colorConverter.fromJson(color),
+  ];
+
+  @override
+  toJson(List<Color> object) => [
+    for(var color in object)
+      colorConverter.toJson(color),
+  ];
+
+}
+
 /// Size Json Converter
 class SizeConverter extends JsonConverter<Size, dynamic>  {
 
@@ -132,6 +152,23 @@ class Matrix4Converter extends JsonConverter<Matrix4, dynamic>  {
 
   @override
   dynamic toJson(Matrix4 object) => object.storage;
+
+}
+
+class NullableMatrix4Converter extends JsonConverter<Matrix4?, dynamic>  {
+
+  static const doubleListConverter = NullableDoubleListConverter();
+
+  const NullableMatrix4Converter();
+
+  @override
+  Matrix4? fromJson(json)  {
+    final buffer = doubleListConverter.fromJson(json);
+    return buffer != null ? Matrix4.fromList(buffer): null;
+  }
+
+  @override
+  toJson(Matrix4? object) => doubleListConverter.toJson(object?.storage);
 
 }
 
@@ -681,5 +718,41 @@ class NullableBoxDecorationConverter extends JsonConverter<BoxDecoration?, dynam
 
   @override
   toJson(BoxDecoration? object) => object != null ? converter.toJson(object): <String, dynamic>{ };
+
+}
+
+class TileModeConverter extends JsonConverter<TileMode, dynamic>  {
+
+  const TileModeConverter();
+  
+  @override
+  TileMode fromJson(json) => TileMode.values[json];
+  
+  @override
+  toJson(TileMode object) => object.index;
+
+}
+
+class NullableTileModeConverter extends JsonConverter<TileMode?, dynamic>  {
+
+  const NullableTileModeConverter();
+  
+  @override
+  TileMode? fromJson(json) => json < 0 ? null: TileMode.values[json];
+  
+  @override
+  toJson(TileMode? object) => object == null ? -1: object.index;
+
+}
+
+class NullableDoubleListConverter extends JsonConverter<List<double>?, dynamic>  {
+
+  const NullableDoubleListConverter();
+
+  @override
+  List<double>? fromJson(json) => (json as Iterable<dynamic>?)?.cast<double>().toList();
+
+  @override
+  toJson(List<double>? object) => object;
 
 }
