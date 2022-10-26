@@ -576,6 +576,20 @@ class AlignmentConverter extends JsonConverter<Alignment, dynamic>  {
 
 }
 
+class NullableAlignmentConverter extends JsonConverter<Alignment?, dynamic>  {
+
+  static const converter = AlignmentConverter();
+
+  const NullableAlignmentConverter();
+
+  @override
+  Alignment? fromJson(json) => json != null ? converter.fromJson(json): null;
+
+  @override
+  toJson(Alignment? object) => object != null ? converter.toJson(object) : null;
+
+}
+
 class BoxShapeConverter extends JsonConverter<BoxShape, dynamic>  {
 
   const BoxShapeConverter();
