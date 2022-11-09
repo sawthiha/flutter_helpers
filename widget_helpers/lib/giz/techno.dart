@@ -1,4 +1,4 @@
-library techno;
+library giz;
 
 import 'dart:ui';
 

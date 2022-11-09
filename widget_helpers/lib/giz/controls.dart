@@ -1,13 +1,13 @@
-part of techno;
+part of giz;
 
-class TechnoSlidingSegmentedControl<T extends Object> extends StatelessWidget  {
+class GizSlidingSegmentedControl<T extends Object> extends StatelessWidget  {
 
   final Map<T, Widget> children;
   final Size tabSize;
   final void Function(T?) onValueChanged;
   final T value;
 
-  const TechnoSlidingSegmentedControl({
+  const GizSlidingSegmentedControl({
     Key? key,
     required this.onValueChanged,
     required this.children,
@@ -28,10 +28,10 @@ class TechnoSlidingSegmentedControl<T extends Object> extends StatelessWidget  {
       ),
     ),
     backgroundColor: Color.alphaBlend(
-      TechnoColors.primary.withOpacity(0.1), TechnoColors.darkPrimary.withOpacity(0.5),
+      GizColors.primary.withOpacity(0.1), GizColors.darkPrimary.withOpacity(0.5),
     ),
     thumbColor: Color.alphaBlend(
-      TechnoColors.primary.withOpacity(0.3), TechnoColors.darkPrimary.withOpacity(0.1),
+      GizColors.primary.withOpacity(0.3), GizColors.darkPrimary.withOpacity(0.1),
     ),
     onValueChanged: onValueChanged,
   );

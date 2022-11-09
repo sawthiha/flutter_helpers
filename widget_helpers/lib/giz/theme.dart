@@ -1,21 +1,21 @@
-part of techno;
+part of giz;
 
 class CoreThemes {
 
   static ThemeData get theme => ThemeData(
-    primarySwatch: TechnoColors.darkPrimarySwatch,
+    primarySwatch: GizColors.darkPrimarySwatch,
     appBarTheme: appBarTheme,
     textButtonTheme: textButtonTheme,
     textTheme: textTheme,
     iconTheme: iconTheme,
     cardTheme: cardTheme,
-    hoverColor: TechnoColors.accent.withAlpha(10),
-    splashColor: TechnoColors.accent.withAlpha(10),
-    highlightColor: TechnoColors.accent.withAlpha(10),
-    focusColor: TechnoColors.accent.withAlpha(10),
+    hoverColor: GizColors.accent.withAlpha(10),
+    splashColor: GizColors.accent.withAlpha(10),
+    highlightColor: GizColors.accent.withAlpha(10),
+    focusColor: GizColors.accent.withAlpha(10),
     elevatedButtonTheme: elevatedButtonTheme,
     chipTheme: chipTheme,
-    dialogBackgroundColor: TechnoColors.darkPrimary,
+    dialogBackgroundColor: GizColors.darkPrimary,
     inputDecorationTheme: inputDecorationTheme,
     textSelectionTheme: textSelectionTheme,
     sliderTheme: sliderTheme,
@@ -25,35 +25,35 @@ class CoreThemes {
   static final textButtonTheme = TextButtonThemeData(
     style: ButtonStyle(
       foregroundColor: MaterialStateProperty.all(
-        TechnoColors.darkPrimary,
+        GizColors.darkPrimary,
       ),
     ),
   );
 
   static final chipTheme = ChipThemeData.fromDefaults(
-    primaryColor: TechnoColors.darkPrimary,
-    secondaryColor: TechnoColors.darkPrimary.withOpacity(0.12),
+    primaryColor: GizColors.darkPrimary,
+    secondaryColor: GizColors.darkPrimary.withOpacity(0.12),
     labelStyle: const TextStyle(
       fontFamily: 'Rubik',
       fontSize:  13,
-      color: TechnoColors.darkPrimary,
+      color: GizColors.darkPrimary,
     ),
   );
 
   static const textTheme = TextTheme(
     button: TextStyle(
-      color: TechnoColors.accent,
+      color: GizColors.accent,
       fontWeight: FontWeight.normal,
       fontSize: 13.0,
     ),
     headline2: TextStyle(
       fontFamily: 'Halant',
-      color: TechnoColors.darkPrimary,
+      color: GizColors.darkPrimary,
       fontSize: 36,
     ),
     headline4: TextStyle(
       fontFamily: 'Halant',
-      color: TechnoColors.darkPrimary,
+      color: GizColors.darkPrimary,
       fontSize: 21,
     ),
     headline6: TextStyle(
@@ -69,32 +69,32 @@ class CoreThemes {
     bodyText1: TextStyle(
       fontFamily: 'Lato',
       fontSize: 16,
-      color: TechnoColors.darkPrimary,
+      color: GizColors.darkPrimary,
     ),
     bodyText2: TextStyle(
       fontFamily: 'Rubik',
       fontSize: 13,
-      color: TechnoColors.darkPrimary,
+      color: GizColors.darkPrimary,
     ),
     caption: TextStyle(
       fontFamily: 'Roboto',
       fontSize: 13,
-      color: TechnoColors.darkPrimary,
+      color: GizColors.darkPrimary,
     ),
   );
 
   static const iconTheme = IconThemeData(
-    color: TechnoColors.tint,
+    color: GizColors.tint,
     size: 36,
   );
 
   static final AppBarTheme appBarTheme = const AppBarTheme().copyWith(
-    color: TechnoColors.darkPrimary,
+    color: GizColors.darkPrimary,
   );
 
   static final cardTheme = CardTheme(
     elevation: 4.0,
-    color: TechnoColors.darkPrimary,
+    color: GizColors.darkPrimary,
     clipBehavior: Clip.hardEdge,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(21.0)
@@ -103,8 +103,8 @@ class CoreThemes {
 
   static final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.resolveWith((states) => TechnoColors.accent),
-      foregroundColor: MaterialStateProperty.resolveWith((states) => TechnoColors.primary),
+      backgroundColor: MaterialStateProperty.resolveWith((states) => GizColors.accent),
+      foregroundColor: MaterialStateProperty.resolveWith((states) => GizColors.primary),
     ),
   );
 
@@ -112,23 +112,23 @@ class CoreThemes {
     const border = UnderlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(5.0)),
       borderSide: BorderSide(
-        color: TechnoColors.primary,
+        color: GizColors.primary,
         width: 3.0,
       ),
     );
     final focusBorder = border.copyWith(
       borderSide: const BorderSide(
-        color: TechnoColors.accent,
+        color: GizColors.accent,
       ),
     );
     final errorBorder = border.copyWith(
       borderSide: const BorderSide(
-        color: TechnoColors.warning,
+        color: GizColors.warning,
       ),
     );
     return InputDecorationTheme(
       errorStyle: textTheme.caption!.copyWith(
-        color: TechnoColors.warning,
+        color: GizColors.warning,
         fontSize: 21.0,
         height: 0.03,
       ),
@@ -144,26 +144,26 @@ class CoreThemes {
   }
 
   static const textSelectionTheme = TextSelectionThemeData(
-    cursorColor: TechnoColors.accent,
-    selectionHandleColor: TechnoColors.accent,
-    selectionColor: TechnoColors.tint,
+    cursorColor: GizColors.accent,
+    selectionHandleColor: GizColors.accent,
+    selectionColor: GizColors.tint,
   );
   static const darkTextSelectionTheme = TextSelectionThemeData(
-    cursorColor: TechnoColors.primary,
-    selectionHandleColor: TechnoColors.primary,
-    selectionColor: TechnoColors.primaryOpacity50,
+    cursorColor: GizColors.primary,
+    selectionHandleColor: GizColors.primary,
+    selectionColor: GizColors.primaryOpacity50,
   );
 
   static const sliderTheme = SliderThemeData(
-    activeTrackColor: TechnoColors.accent,
-    inactiveTrackColor: TechnoColors.darkPrimaryOpacity50,
+    activeTrackColor: GizColors.accent,
+    inactiveTrackColor: GizColors.darkPrimaryOpacity50,
   );
 
   static const dialogTheme = DialogTheme();
 
 }
 
-abstract class TechnoColors  {
+abstract class GizColors  {
 
   static const Color primary = Color(0xfffafafa);
   static const Color primaryOpacity0 = Color(0x00fafafa);

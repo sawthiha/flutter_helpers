@@ -1,6 +1,6 @@
-part of techno;
+part of giz;
 
-class TechnoGlassyContainer extends StatelessWidget  {
+class GizGlassyContainer extends StatelessWidget  {
 
   final double? width;
   final double? height;
@@ -11,7 +11,7 @@ class TechnoGlassyContainer extends StatelessWidget  {
   final double sigmaX;
   final double sigmaY;
 
-  const TechnoGlassyContainer({Key? key,
+  const GizGlassyContainer({Key? key,
     required this.width,
     required this.height,
     required this.foregroundColor, required this.backgroundColor,
@@ -49,14 +49,14 @@ class TechnoGlassyContainer extends StatelessWidget  {
 
 }
 
-class TechnoFloatingContainer extends StatelessWidget  {
+class GizFloatingContainer extends StatelessWidget  {
 
   final double? width;
   final double? height;
   final BorderRadius borderRadius;
   final Widget child;
 
-  const TechnoFloatingContainer({Key? key,
+  const GizFloatingContainer({Key? key,
     required this.width,
     required this.height,
     required this.borderRadius,
@@ -64,17 +64,17 @@ class TechnoFloatingContainer extends StatelessWidget  {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => TechnoGlassyContainer(
+  Widget build(BuildContext context) => GizGlassyContainer(
     width: width,
     height: height,
-    foregroundColor: TechnoColors.primaryOpacity10, backgroundColor: TechnoColors.darkPrimaryOpacity50,
+    foregroundColor: GizColors.primaryOpacity10, backgroundColor: GizColors.darkPrimaryOpacity50,
     borderRadius: borderRadius,
     child: child
   );
 
 }
 
-class TechnoDialogContainer extends StatelessWidget {
+class GizDialogContainer extends StatelessWidget {
   final Size size;
   final BorderRadius borderRadius;
   final Widget child;
@@ -85,7 +85,7 @@ class TechnoDialogContainer extends StatelessWidget {
   final double foregroundOpacity;
   final double backgroundOpacity;
 
-  const TechnoDialogContainer({
+  const GizDialogContainer({
     Key? key,
     required this.child,
     this.closeButtonSize = 34.0,
@@ -110,11 +110,11 @@ class TechnoDialogContainer extends StatelessWidget {
     contentPadding: const EdgeInsets.all(0.0),
     insetPadding: const EdgeInsets.all(0.0),
     actionsPadding: const EdgeInsets.all(0.0),
-    content: TechnoGlassyContainer(
+    content: GizGlassyContainer(
       width: size.width,
       height: size.height,
-      foregroundColor: TechnoColors.darkPrimary.withOpacity(foregroundOpacity),
-      backgroundColor: TechnoColors.darkPrimary.withOpacity(backgroundOpacity),
+      foregroundColor: GizColors.darkPrimary.withOpacity(foregroundOpacity),
+      backgroundColor: GizColors.darkPrimary.withOpacity(backgroundOpacity),
       borderRadius: borderRadius,
       child: Stack(
         children: [
@@ -127,7 +127,7 @@ class TechnoDialogContainer extends StatelessWidget {
                 width: closeButtonSize,
                 height: closeButtonSize,
                 decoration: BoxDecoration(
-                  color: TechnoColors.primary,
+                  color: GizColors.primary,
                   borderRadius: BorderRadius.circular(closeButtonSize / 2),
                 ),
                 child: InkWell(
@@ -135,7 +135,7 @@ class TechnoDialogContainer extends StatelessWidget {
                   child: Icon(
                     Icons.close,
                     size: closeButtonIconSize,
-                    color: TechnoColors.warning,
+                    color: GizColors.warning,
                   ),
                 ),
               ),

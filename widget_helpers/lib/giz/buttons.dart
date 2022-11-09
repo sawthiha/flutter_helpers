@@ -1,13 +1,13 @@
-part of techno;
+part of giz;
 
-class TechnoFloatingButton extends StatelessWidget {
+class GizFloatingButton extends StatelessWidget {
   final Widget child;
   final VoidCallback onPressed;
   final double? width;
   final double? height;
   final bool isSelected;
 
-  const TechnoFloatingButton({
+  const GizFloatingButton({
     Key? key,
     required this.onPressed,
     required this.child,
@@ -23,7 +23,7 @@ class TechnoFloatingButton extends StatelessWidget {
       onTap: onPressed,
       customBorder: const CircleBorder(),
       borderRadius: BorderRadius.circular(55.0),
-      child: TechnoFloatingContainer(
+      child: GizFloatingContainer(
         width: width,
         height: height,
         borderRadius: BorderRadius.circular(55.0),
@@ -33,7 +33,7 @@ class TechnoFloatingButton extends StatelessWidget {
               child: child,
             ),
             Container(
-              color: isSelected ? TechnoColors.primaryOpacity40
+              color: isSelected ? GizColors.primaryOpacity40
                 : Colors.transparent,
             ),
           ],

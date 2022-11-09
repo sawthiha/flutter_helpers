@@ -1,4 +1,4 @@
-part of techno;
+part of giz;
 
 enum PopupMenuAlignment
 {
@@ -304,7 +304,7 @@ class DraggablePopupMenu extends StatelessWidget  {
             : InkWell(
               onTap: onClose,
               child: const Icon(Icons.close,
-                color: TechnoColors.primary,
+                color: GizColors.primary,
                 size: 17,
               ),
             ),
@@ -345,7 +345,7 @@ class PopupMenuDragger extends StatelessWidget  {
             width: size.width,
             height: size.height,
             decoration: BoxDecoration(
-              color: TechnoColors.primaryOpacity50,
+              color: GizColors.primaryOpacity50,
               borderRadius: BorderRadius.all(Radius.circular(size.height))
             ),
           ),
