@@ -41,42 +41,42 @@ class CoreThemes {
   );
 
   static const textTheme = TextTheme(
-    button: TextStyle(
+    labelLarge: TextStyle(
       color: GizColors.accent,
       fontWeight: FontWeight.normal,
       fontSize: 13.0,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       fontFamily: 'Halant',
       color: GizColors.darkPrimary,
       fontSize: 36,
     ),
-    headline4: TextStyle(
+    headlineMedium: TextStyle(
       fontFamily: 'Halant',
       color: GizColors.darkPrimary,
       fontSize: 21,
     ),
-    headline6: TextStyle(
+    titleLarge: TextStyle(
       fontFamily: 'Halant',
       fontSize: 23,
       // fontWeight: FontWeight.bold
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       fontFamily: 'Roboto',
       fontSize: 21,
       fontWeight: FontWeight.normal
     ),
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       fontFamily: 'Lato',
       fontSize: 16,
       color: GizColors.darkPrimary,
     ),
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       fontFamily: 'Rubik',
       fontSize: 13,
       color: GizColors.darkPrimary,
     ),
-    caption: TextStyle(
+    bodySmall: TextStyle(
       fontFamily: 'Roboto',
       fontSize: 13,
       color: GizColors.darkPrimary,
@@ -127,7 +127,7 @@ class CoreThemes {
       ),
     );
     return InputDecorationTheme(
-      errorStyle: textTheme.caption!.copyWith(
+      errorStyle: textTheme.bodySmall?.copyWith(
         color: GizColors.warning,
         fontSize: 21.0,
         height: 0.03,
@@ -139,7 +139,7 @@ class CoreThemes {
       focusedBorder: focusBorder,
       enabledBorder: border,
       disabledBorder: border,
-      labelStyle: textTheme.caption,
+      labelStyle: textTheme.labelLarge,
     );
   }
 
