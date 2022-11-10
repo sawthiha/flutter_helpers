@@ -15,6 +15,7 @@ void showPopupOnDialogStack({
   final double triangleHeight = 15.0,
   bool isDraggable = false,
   bool isBounded = true,
+  bool isDetached = false,
   Size boundPadding = Size.zero,
   VoidCallback? onClose,
   VoidCallback? onDragStart,
@@ -29,6 +30,7 @@ void showPopupOnDialogStack({
     index ?? controller.hashCode,
     DialogStackEntry(
       isBounded: isBounded,
+      isDetached: isDetached,
       boundPadding: const EdgeInsets.all(100.0),
       isDraggable: isDraggable,
       offset: rect.topLeft,
