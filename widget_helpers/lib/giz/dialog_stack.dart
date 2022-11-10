@@ -46,9 +46,9 @@ class DialogStackEntry extends GetxController  {
   final void Function(DialogStackEntry entry)? onBoundUpdate;
 
   final bool isDraggable;
-  final VoidCallback? onDragStart;
-  final VoidCallback? onDragEnd;
-  final VoidCallback? onDialogClose;
+  final void Function(DialogStackEntry entry)? onDragStart;
+  final void Function(DialogStackEntry entry)? onDragEnd;
+  final void Function(DialogStackEntry entry)? onDialogClose;
 
   DialogStackEntry({
     Offset offset = Offset.zero,
@@ -124,9 +124,9 @@ class DraggableDialogEntry extends StatelessWidget  {
   final Size draggableSize;
   final Size draggableArea;
   final DialogStackEntry entry;
-  final VoidCallback? onClose;
-  final VoidCallback? onDragStart;
-  final VoidCallback? onDragEnd;
+  final void Function(DialogStackEntry entry)? onClose;
+  final void Function(DialogStackEntry entry)? onDragStart;
+  final void Function(DialogStackEntry entry)? onDragEnd;
 
   const DraggableDialogEntry({super.key,
     required this.child,
@@ -158,7 +158,7 @@ class DraggableDialogEntry extends StatelessWidget  {
           child: Obx(
             () => !entry.isDetached ? Container()
               : InkWell(
-                onTap: onClose,
+                onTap: () => onClose?.call(entry),
                 child: const Icon(Icons.close,
                   color: GizColors.primary,
                   size: 17,
@@ -177,8 +177,8 @@ class DialogEntryDragger extends StatelessWidget  {
   final DialogStackEntry entry;
   final Size size;
   final Size touchArea;
-  final VoidCallback? onDragStart;
-  final VoidCallback? onDragEnd;
+  final void Function(DialogStackEntry entry)? onDragStart;
+  final void Function(DialogStackEntry entry)? onDragEnd;
 
   const DialogEntryDragger({super.key,
     required this.entry,
@@ -192,13 +192,13 @@ class DialogEntryDragger extends StatelessWidget  {
     kSlop: 0.0,
     behavior: HitTestBehavior.translucent,
     onPanStart: (details) {
-      onDragStart?.call();
+      onDragStart?.call(entry);
     },
     onPanUpdate: (details)  {
       entry.offset += details.delta;
     },
     onPanEnd: (details) {
-      onDragEnd?.call();
+      onDragEnd?.call(entry);
       entry.isDetached = true;
     },
     child: SizedBox.fromSize(

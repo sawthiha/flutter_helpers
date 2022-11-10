@@ -17,9 +17,9 @@ DialogStackEntry showPopupOnDialogStack({
   bool isBounded = true,
   bool isDetached = false,
   Size boundPadding = Size.zero,
-  VoidCallback? onClose,
-  VoidCallback? onDragStart,
-  VoidCallback? onDragEnd,
+  void Function(DialogStackEntry)? onClose,
+  void Function(DialogStackEntry)? onDragStart,
+  void Function(DialogStackEntry)? onDragEnd,
   void Function(DialogStackEntry)? onBoundUpdate,
   int? index,
 }) {
@@ -40,13 +40,13 @@ DialogStackEntry showPopupOnDialogStack({
       onBoundUpdate?.call(entry);
     },
     onDragEnd: onDragEnd,
-    onDragStart: () {
+    onDragStart: (entry) {
       alignmentRx.value = PopupMenuAlignment.none;
-      onDragStart?.call();
+      onDragStart?.call(entry);
     },
-    onDialogClose: () {
-      dialogController.deregisterEntry(controller.hashCode);
-      onClose?.call();
+    onDialogClose: (entry)  {
+      dialogController.onOutOfBoundGesture(entry);
+      onClose?.call(entry);
     },
     widget: Obx(
       () => PopupMenu(
