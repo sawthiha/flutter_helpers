@@ -27,7 +27,7 @@ class DialogStackEntry extends GetxController  {
         offset.dx.clamp(boundPadding.left, constraints.maxWidth - size.width - boundPadding.right),
         offset.dy.clamp(boundPadding.top, constraints.maxHeight - size.height - boundPadding.right),
       );
-      onBoundUpdate(this);
+      onBoundUpdate?.call(this);
     }
     return Positioned.fromRect(
       rect: offset & size,
@@ -43,7 +43,7 @@ class DialogStackEntry extends GetxController  {
 
   final bool isBounded;
 
-  final void Function(DialogStackEntry entry) onBoundUpdate;
+  final void Function(DialogStackEntry entry)? onBoundUpdate;
 
   final bool isDraggable;
   final VoidCallback? onDragStart;
@@ -56,7 +56,7 @@ class DialogStackEntry extends GetxController  {
     bool isDetached = false,
     required Widget widget,
     this.isBounded = true,
-    required this.onBoundUpdate,
+    this.onBoundUpdate,
     this.isDraggable = false,
     this.onDragStart,
     this.onDragEnd,
