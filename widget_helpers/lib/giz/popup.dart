@@ -20,12 +20,13 @@ void showPopupOnDialogStack({
   VoidCallback? onDragStart,
   VoidCallback? onDragEnd,
   void Function(DialogStackEntry)? onBoundUpdate,
+  int? index,
 }) {
   final alignmentRx = Rx<PopupMenuAlignment>(alignment);
   final rect = controller.calculateRect(alignment: alignmentRx.value, size: size, offset: offset, triangleHeight: 15);
   final popupOffsetRx = Rx<double>(controller.calculateOffset(alignment: alignmentRx.value, rect: rect));
   dialogController.registerEntry(
-    controller.hashCode,
+    index ?? controller.hashCode,
     DialogStackEntry(
       isBounded: isBounded,
       boundPadding: const EdgeInsets.all(100.0),
@@ -89,10 +90,10 @@ extension PopupMenuAlignmentRect on PopupMenuAlignment {
         center = Offset(targetRect.right + (size.width / 2) + triangleHeight, targetRect.center.dy);
     }
     return Rect.fromCenter(
-      center: center + offset,
+      center: center,
       width: size.width,
       height: size.height,
-    );
+    ).shift(offset);
   }
 
 }
