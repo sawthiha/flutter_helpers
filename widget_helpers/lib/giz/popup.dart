@@ -1,8 +1,8 @@
 part of giz;
 
-void showPopupOnDialogStack({
+DialogStackEntry showPopupOnDialogStack({
   required Widget widget,
-  required PopupMenuController controller,
+  required PopupMenuController? controller,
   required PopupMenuAlignment alignment,
   required Size size,
   required Offset offset,
@@ -24,45 +24,49 @@ void showPopupOnDialogStack({
   int? index,
 }) {
   final alignmentRx = Rx<PopupMenuAlignment>(alignment);
-  final rect = controller.calculateRect(alignment: alignmentRx.value, size: size, offset: offset, triangleHeight: 15);
-  final popupOffsetRx = Rx<double>(controller.calculateOffset(alignment: alignmentRx.value, rect: rect));
-  dialogController.registerEntry(
-    index ?? controller.hashCode,
-    DialogStackEntry(
-      isBounded: isBounded,
-      isDetached: isDetached,
-      boundPadding: const EdgeInsets.all(100.0),
-      isDraggable: isDraggable,
-      offset: rect.topLeft,
-      size: rect.size,
-      onBoundUpdate: (entry) {
+  final rect = controller?.calculateRect(alignment: alignmentRx.value, size: size, offset: offset, triangleHeight: 15);
+  final popupOffsetRx = Rx<double>(controller?.calculateOffset(alignment: alignmentRx.value, rect: rect!) ?? 0.0);
+  final entry = DialogStackEntry(
+    isBounded: isBounded,
+    isDetached: isDetached,
+    boundPadding: const EdgeInsets.all(100.0),
+    isDraggable: isDraggable,
+    offset: rect?.topLeft ?? offset,
+    size: rect?.size ?? size,
+    onBoundUpdate: (entry) {
+      if(controller != null)  {
         popupOffsetRx.value = controller.calculateOffset(alignment: alignmentRx.value, rect: entry.offset & entry.size);
-        onBoundUpdate?.call(entry);
-      },
-      onDragEnd: onDragEnd,
-      onDragStart: () {
-        alignmentRx.value = PopupMenuAlignment.none;
-        onDragStart?.call();
-      },
-      onDialogClose: () {
-        dialogController.deregisterEntry(controller.hashCode);
-        onClose?.call();
-      },
-      widget: Obx(
-        () => PopupMenu(
-          child: widget,
-          offset: popupOffsetRx.value,
-          alignment: alignmentRx.value,
-          color: color,
-          side: side,
-          borderRadius: borderRadius,
-          shadows: shadows,
-          triangleBase: triangleBase,
-          triangleHeight: triangleHeight,
-        ),
+      }
+      onBoundUpdate?.call(entry);
+    },
+    onDragEnd: onDragEnd,
+    onDragStart: () {
+      alignmentRx.value = PopupMenuAlignment.none;
+      onDragStart?.call();
+    },
+    onDialogClose: () {
+      dialogController.deregisterEntry(controller.hashCode);
+      onClose?.call();
+    },
+    widget: Obx(
+      () => PopupMenu(
+        child: widget,
+        offset: popupOffsetRx.value,
+        alignment: alignmentRx.value,
+        color: color,
+        side: side,
+        borderRadius: borderRadius,
+        shadows: shadows,
+        triangleBase: triangleBase,
+        triangleHeight: triangleHeight,
       ),
     ),
   );
+  dialogController.registerEntry(
+    index ?? controller.hashCode,
+    entry,
+  );
+  return entry;
 }
 
 enum PopupMenuAlignment
