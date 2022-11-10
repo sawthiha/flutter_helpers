@@ -1,11 +1,74 @@
 part of giz;
 
+void showPopupOnDialogStack({
+  required Widget widget,
+  required PopupMenuController controller,
+  required PopupMenuAlignment alignment,
+  required Size size,
+  required Offset offset,
+  required DialogStackController dialogController,
+  Color? color,
+  BorderRadius borderRadius = BorderRadius.zero,
+  BorderSide side = BorderSide.none,
+  List<BoxShadow> shadows = const <BoxShadow>[],
+  final double triangleBase = 10.0,
+  final double triangleHeight = 15.0,
+  bool isDraggable = false,
+  bool isBounded = true,
+  Size boundPadding = Size.zero,
+  VoidCallback? onClose,
+  VoidCallback? onDragStart,
+  VoidCallback? onDragEnd,
+  void Function(DialogStackEntry)? onBoundUpdate,
+}) {
+  final alignmentRx = Rx<PopupMenuAlignment>(alignment);
+  final rect = controller.calculateRect(alignment: alignmentRx.value, size: size, offset: offset, triangleHeight: 15);
+  final popupOffsetRx = Rx<double>(controller.calculateOffset(alignment: alignmentRx.value, rect: rect));
+  dialogController.registerEntry(
+    controller.hashCode,
+    DialogStackEntry(
+      isBounded: isBounded,
+      boundPadding: const EdgeInsets.all(100.0),
+      isDraggable: isDraggable,
+      offset: rect.topLeft,
+      size: rect.size,
+      onBoundUpdate: (entry) {
+        popupOffsetRx.value = controller.calculateOffset(alignment: alignmentRx.value, rect: entry.offset & entry.size);
+        onBoundUpdate?.call(entry);
+      },
+      onDragEnd: onDragEnd,
+      onDragStart: () {
+        alignmentRx.value = PopupMenuAlignment.none;
+        onDragStart?.call();
+      },
+      onDialogClose: () {
+        dialogController.deregisterEntry(controller.hashCode);
+        onClose?.call();
+      },
+      widget: Obx(
+        () => PopupMenu(
+          child: widget,
+          offset: popupOffsetRx.value,
+          alignment: alignmentRx.value,
+          color: color,
+          side: side,
+          borderRadius: borderRadius,
+          shadows: shadows,
+          triangleBase: triangleBase,
+          triangleHeight: triangleHeight,
+        ),
+      ),
+    ),
+  );
+}
+
 enum PopupMenuAlignment
 {
   top,
   bottom,
   left,
-  right
+  right,
+  none
 }
 
 extension PopupMenuAlignmentRect on PopupMenuAlignment {
@@ -38,34 +101,11 @@ class PopupMenuController extends GetxController  {
 
   final targetKey = GlobalKey();
 
-  final double arrowTriangleBase;
-  final double arrowTriangleHeight;
-
   final void Function(PopupMenuController)? onDetach;
 
   PopupMenuController({
-    this.arrowTriangleBase = 15,
-    this.arrowTriangleHeight = 10,
     this.onDetach,
   });
-
-  final Rx<RRect> _rect = RRect.zero.obs;
-  RRect get rect => _rect.value;
-  set rect(RRect rect)  {
-    _rect.value = rect;
-  }
-  void translate(Offset offset)  {
-    _rect.value = _rect.value.shift(offset);
-    isAttached = false;
-  }
-  final RxBool _isAttached = true.obs;
-  set isAttached(bool isAtt)  {
-    if(isAttached && !isAtt)  {
-      onDetach?.call(this);
-    }
-    _isAttached.value = isAtt;
-  }
-  bool get isAttached => _isAttached.value;
 
   Rect get targetRect  {
     final box = targetKey.currentContext?.findRenderObject() as RenderBox?;
@@ -74,60 +114,32 @@ class PopupMenuController extends GetxController  {
     return box?.paintBounds.shift(traslationOffset) ?? Rect.zero;
   }
 
-  WidgetBuilder getPopup(Widget child, {
+  Rect calculateRect({
+    required PopupMenuAlignment alignment,
     required Size size,
     required Offset offset,
-    required Radius radius,
-    PopupMenuAlignment alignment = PopupMenuAlignment.bottom,
-    Color? color,
-    List<BoxShadow> shadows = const <BoxShadow>[],
-    bool isAttached = true,
-    RRect? initialRRect,
+    required double triangleHeight,
+  }) => alignment.toRect(targetRect, size, offset, triangleHeight);
+
+  double calculateOffset({
+    required PopupMenuAlignment alignment,
+    required Rect rect,
   })  {
-    rect = initialRRect ?? RRect.fromRectAndRadius(
-      alignment.toRect(targetRect, size, offset, arrowTriangleHeight),
-        radius
-    );
-    _isAttached.value = isAttached;
-    return (context) => PopupMenu(
-      controller: this,
-      child: child,
-      color: color,
-      shadows: shadows,
-    );
+    switch(alignment)  {
+
+      case PopupMenuAlignment.top:
+      case PopupMenuAlignment.bottom:
+        return (targetRect.bottomCenter.dx - rect.left) / rect.width;
+
+      case PopupMenuAlignment.left:
+      case PopupMenuAlignment.right:
+        return (targetRect.centerLeft.dy - rect.top) / rect.height;
+
+      default:
+        return 0.0;
+    }
   }
-  WidgetBuilder getDraggablePopup(Widget child, {
-    required Size size,
-    required Offset offset,
-    required Radius radius,
-    Size draggableSize = const Size(56, 5),
-    Size draggableArea = const Size(70, 44),
-    PopupMenuAlignment alignment = PopupMenuAlignment.bottom,
-    Color? color,
-    bool isAttached = true,
-    VoidCallback? onClose,
-    List<BoxShadow> shadows = const <BoxShadow>[],
-    RRect? initialRRect,
-  })  {
-    return getPopup(
-      DraggablePopupMenu(
-        controller: this,
-        child: child,
-        onClose: onClose,
-        draggableSize: draggableSize,
-        draggableArea: draggableArea,
-      ),
-      size: size,
-      offset: offset,
-      radius: radius,
-      alignment: alignment,
-      color: color,
-      isAttached: isAttached,
-      shadows: shadows,
-      initialRRect: initialRRect,
-    );
-  }
-  
+
 }
 
 class PopupMenuTarget extends StatelessWidget  {
@@ -148,210 +160,183 @@ class PopupMenuTarget extends StatelessWidget  {
 class PopupMenu extends StatelessWidget  {
 
   final Widget child;
-  final PopupMenuController controller;
+  final PopupMenuAlignment alignment;
   final Color? color;
   final List<BoxShadow> shadows;
+  final BorderSide side;
+  final BorderRadius borderRadius;
+  final double offset;
+  final double triangleBase;
+  final double triangleHeight;
 
   const PopupMenu({super.key,
-    required this.controller,
     required this.child,
+    required this.alignment,
+    required this.side,
+    required this.borderRadius,
+    required this.offset,
+    required this.triangleBase,
+    required this.triangleHeight,
     this.color,
     this.shadows = const <BoxShadow>[],
   });
 
   @override
-  Widget build(BuildContext context) => Obx(
-    () =>  Positioned.fromRect(
-      rect: controller.rect.outerRect,
-      child: Container(
-        decoration: ShapeDecoration(
-          color: color,
-          shadows: shadows,
-          shape: PopupMenuShape(controller, controller.isAttached)
-        ),
-        child: child
+  Widget build(BuildContext context) => Container(
+    decoration: ShapeDecoration(
+      color: color,
+      shadows: shadows,
+      shape: PopupMenuShape(
+        alignment: alignment,
+        borderRadius: borderRadius,
+        offset: offset,
+        side: side,
+        triangleBase: triangleBase,
+        triangleHeight: triangleHeight,
       ),
     ),
+    child: child
   );
 
 }
 
-/// I'm using [RoundedRectangleBorder] as my reference...
 class PopupMenuShape extends ShapeBorder {
 
-  final PopupMenuController controller;
-  final bool isAttached;
-
-  const PopupMenuShape(this.controller, this.isAttached);
-
-  final BorderSide _side = BorderSide.none;
-  final BorderRadiusGeometry _borderRadius = BorderRadius.zero;
+  final BorderRadius borderRadius;
+  final BorderSide side;
+  final double triangleBase;
+  final double triangleHeight;
+  final double offset;
+  final PopupMenuAlignment alignment;
+  
+  const PopupMenuShape({
+    required this.borderRadius,
+    required this.side,
+    required this.triangleBase,
+    required this.triangleHeight,
+    required this.offset,
+    required this.alignment,
+  });
 
   @override
-  EdgeInsetsGeometry get dimensions => EdgeInsets.all(_side.width);
+  EdgeInsetsGeometry get dimensions => EdgeInsets.all(side.width);
+
+  Path _getPopupPath(RRect rect)  {
+    final path = Path()
+      ..moveTo(rect.right - rect.trRadiusX, rect.top)
+      ..quadraticBezierTo(rect.right, rect.top, rect.right, rect.top + borderRadius.topRight.y);
+
+    if(alignment == PopupMenuAlignment.left)  {
+      final centerOffset = (rect.top + rect.height * offset).clamp(
+        rect.top + rect.trRadiusY + triangleBase / 2,
+        rect.bottom - rect.brRadiusY - triangleBase / 2,
+      );
+      final startOffset = centerOffset - triangleBase / 2;
+      final endOffset = centerOffset + triangleBase / 2;
+      path..lineTo(rect.right, startOffset)
+        ..lineTo(rect.right + triangleHeight, centerOffset)
+        ..lineTo(rect.right, endOffset);
+    }
+
+    path..lineTo(rect.right, rect.bottom - borderRadius.bottomRight.y)
+      ..quadraticBezierTo(rect.right, rect.bottom, rect.right - borderRadius.bottomRight.x, rect.bottom);
+
+    if(alignment == PopupMenuAlignment.top)  {
+      final centerOffset = (rect.left + rect.width * offset).clamp(
+        rect.left + rect.blRadiusX + triangleBase / 2,
+        rect.right - rect.brRadiusX - triangleBase / 2,
+      );
+      final startOffset = centerOffset - triangleBase / 2;
+      final endOffset = centerOffset + triangleBase / 2;
+      path..lineTo(endOffset, rect.bottom)
+        ..lineTo(centerOffset, rect.bottom + triangleHeight)
+        ..lineTo(startOffset, rect.bottom);
+    }
+
+      path..lineTo(rect.left + borderRadius.bottomLeft.x, rect.bottom)
+      ..quadraticBezierTo(rect.left, rect.bottom, rect.left, rect.bottom - borderRadius.bottomLeft.y);
+    
+    if(alignment == PopupMenuAlignment.right)  {
+      final centerOffset = (rect.top + rect.height * offset).clamp(
+        rect.top + rect.tlRadiusY + triangleBase / 2,
+        rect.bottom - rect.blRadiusY - triangleBase / 2,
+      );
+      final startOffset = centerOffset - triangleBase / 2;
+      final endOffset = centerOffset + triangleBase / 2;
+      path..lineTo(rect.left, endOffset)
+        ..lineTo(rect.left - triangleHeight, centerOffset)
+        ..lineTo(rect.left, startOffset);
+    }
+
+    path..lineTo(rect.left, rect.top + borderRadius.topLeft.y)
+      ..quadraticBezierTo(rect.left, rect.top, rect.left + borderRadius.topLeft.x, rect.top);
+
+    if(alignment == PopupMenuAlignment.bottom)  {
+      final centerOffset = (rect.left + rect.width * offset).clamp(
+        rect.left + rect.tlRadiusX + triangleBase / 2,
+        rect.right - rect.trRadiusX - triangleBase / 2,
+      );
+      final startOffset = centerOffset - triangleBase / 2;
+      final endOffset = centerOffset + triangleBase / 2;
+      path..lineTo(startOffset, rect.top)
+        ..lineTo(centerOffset, rect.top - triangleHeight)
+        ..lineTo(endOffset, rect.top);
+    }
+
+    path.close();
+
+    return path;
+  }
 
   @override
   Path getInnerPath(
     Rect rect, {
     TextDirection? textDirection,
   }) {
-    final Path path = Path();
-
-    path.addRRect(
-      _borderRadius.resolve(textDirection).toRRect(rect).deflate(_side.width),
+    return _getPopupPath(
+      borderRadius.resolve(textDirection).toRRect(rect).deflate(side.strokeInset),
     );
-
-    return path;
   }
 
   @override
-  Path getOuterPath(Rect _, {TextDirection? textDirection}) {
-    Path path = Path();
-    final rect = controller.rect;
-    final target = controller.targetRect;
-    path.addRRect(rect);
-    if(rect.outerRect.overlaps(target) || !isAttached)  {
-      return path;
-    }
-
-    double base = controller.arrowTriangleBase;
-    double height = controller.arrowTriangleHeight;
-    double dx1, dx2, dx3, dy1, dy2, dy3;
-
-    if(target.center.dx < rect.left)  {
-      // left
-      dx1 = dx2 = rect.left;
-      dx3 = dx1 - height;
-      
-      dy1 = (target.center.dy - base / 2).clamp(rect.top, rect.bottom - base);
-      dy2 = dy1 + base;
-      dy3 = dy1 + (base / 2);
-    } else if(target.center.dx > rect.right)  {
-      //right
-      dx1 = dx2 = rect.right;
-      dx3 = dx1 + height;
-
-      dy1 = (target.center.dy - base / 2).clamp(rect.top, rect.bottom - base);
-      dy2 = dy1 + base;
-      dy3 = dy1 + (base / 2);
-    } else if(target.center.dy < rect.top)  {
-      // top
-      dy1 = dy2 = rect.top;
-      dy3 = dy1 - height;
-
-      dx1 = (target.center.dx - base / 2).clamp(rect.left, rect.right - base);
-      dx2 = dx1 + base;
-      dx3 = dx1 + (base / 2);
-    } else  {
-      // bottom
-      dy1 = dy2 = rect.bottom;
-      dy3 = dy1 + height;
-
-      dx1 = (target.center.dx - base / 2).clamp(rect.left, rect.right - base);
-      dx2 = dx1 + base;
-      dx3 = dx1 + (base / 2);
-    }
-
-    path.addPolygon([Offset(dx1, dy1), Offset(dx2, dy2), Offset(dx3, dy3)], true);
-    
-    return path;
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
+    return _getPopupPath(
+      borderRadius.resolve(textDirection).toRRect(rect).inflate(side.strokeOutset)
+    );
   }
 
   @override
-  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {}
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection})  {
+    switch (side.style) {
+      case BorderStyle.none:
+        break;
+      case BorderStyle.solid:
+        if (side.width == 0.0) {
+          final outerRRectPath = getOuterPath(rect, textDirection: textDirection);
+          canvas.drawPath(outerRRectPath, side.toPaint());
+        } else {
+          final path = _getPopupPath(borderRadius.resolve(textDirection).toRRect(rect));
+          final Paint paint = Paint()
+            ..color = side.color
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = side.width;
+          // final RRect borderRect = borderRadius.resolve(textDirection).toRRect(rect);
+          // final RRect inner = borderRect.deflate(side.strokeInset);
+          // final RRect outer = borderRect.inflate(side.strokeOutset);
+          // canvas.drawDRRect(outer, inner, paint);
+          canvas.drawPath(path, paint);
+        }
+        break;
+    }
+  }
 
   @override
-  ShapeBorder scale(double t) => RoundedRectangleBorder(
-    side: _side.scale(t),
-    borderRadius: _borderRadius * t,
+  ShapeBorder scale(double t) => PopupMenuShape(
+    side: side.scale(t),
+    borderRadius: borderRadius * t,
+    triangleBase: triangleBase * t,
+    triangleHeight: triangleHeight * t,
+    offset: offset * t,
+    alignment: alignment,
   );
-}
-
-class DraggablePopupMenu extends StatelessWidget  {
-
-  final Widget child;
-  final PopupMenuController controller;
-  final Size draggableSize;
-  final Size draggableArea;
-  final VoidCallback? onClose;
-
-  const DraggablePopupMenu({super.key,
-    required this.controller,
-    required this.child,
-    this.onClose,
-    this.draggableSize = const Size(56, 5),
-    this.draggableArea = const Size(70, 44)
-  });
-
-  @override
-  Widget build(BuildContext context) => Stack(
-    children: [
-      child,
-      Align(
-        alignment: Alignment.topCenter,
-        child: PopupMenuDragger(
-          controller: controller,
-          size: draggableSize,
-          touchArea: draggableArea,
-        ),
-      ),
-      Align(
-        alignment: Alignment.topRight,
-        child: Padding(
-          padding: const EdgeInsets.all(13.0),
-          child: Obx(
-            () => controller.isAttached ? Container()
-            : InkWell(
-              onTap: onClose,
-              child: const Icon(Icons.close,
-                color: GizColors.primary,
-                size: 17,
-              ),
-            ),
-          ),
-        ),
-      )
-    ],
-  );
-
-}
-
-class PopupMenuDragger extends StatelessWidget  {
-
-  final PopupMenuController controller;
-  final Size size;
-  final Size touchArea;
-
-  const PopupMenuDragger({super.key,
-    required this.controller,
-    this.size = const Size(56, 5),
-    this.touchArea = const Size(70, 44)
-  });
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-    kSlop: 0.0,
-    behavior: HitTestBehavior.translucent,
-    onPanUpdate: (details)  {
-      controller.translate(details.delta);
-    },
-    child: SizedBox.fromSize(
-      size: touchArea,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Container(
-            width: size.width,
-            height: size.height,
-            decoration: BoxDecoration(
-              color: GizColors.primaryOpacity50,
-              borderRadius: BorderRadius.all(Radius.circular(size.height))
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-
 }
