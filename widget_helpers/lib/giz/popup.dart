@@ -16,7 +16,7 @@ DialogStackEntry showPopupOnDialogStack({
   bool isDraggable = false,
   bool isBounded = true,
   bool isDetached = false,
-  Size boundPadding = Size.zero,
+  EdgeInsets boundPadding = EdgeInsets.zero,
   void Function(DialogStackEntry)? onClose,
   void Function(DialogStackEntry)? onDragStart,
   void Function(DialogStackEntry)? onDragEnd,
@@ -29,7 +29,7 @@ DialogStackEntry showPopupOnDialogStack({
   final entry = DialogStackEntry(
     isBounded: isBounded,
     isDetached: isDetached,
-    boundPadding: const EdgeInsets.all(100.0),
+    boundPadding: boundPadding,
     isDraggable: isDraggable,
     offset: rect?.topLeft ?? offset,
     size: rect?.size ?? size,
