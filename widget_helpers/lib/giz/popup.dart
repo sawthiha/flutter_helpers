@@ -35,7 +35,7 @@ DialogStackEntry showPopupOnDialogStack({
     size: rect?.size ?? size,
     onBoundUpdate: (entry) {
       if(controller != null)  {
-        popupOffsetRx.value = controller.calculateOffset(alignment: alignmentRx.value, rect: entry.offset & entry.size);
+        popupOffsetRx.value = controller.calculateOffset(alignment: alignmentRx.value, rect: entry.offset & entry.size) ?? popupOffsetRx.value;
       }
       onBoundUpdate?.call(entry);
     },
@@ -128,7 +128,7 @@ class PopupMenuController extends GetxController  {
     required double triangleHeight,
   }) => alignment.toRect(targetRect, size, offset, triangleHeight);
 
-  double calculateOffset({
+  double? calculateOffset({
     required PopupMenuAlignment alignment,
     required Rect rect,
   })  {
@@ -143,7 +143,7 @@ class PopupMenuController extends GetxController  {
         return (targetRect.centerLeft.dy - rect.top) / rect.height;
 
       default:
-        return 0.0;
+        return null;
     }
   }
 
