@@ -157,6 +157,7 @@ class GizThemes {
   static const sliderTheme = SliderThemeData(
     activeTrackColor: GizColors.accent,
     inactiveTrackColor: GizColors.darkPrimaryOpacity50,
+    thumbColor: GizColors.primary,
   );
 
   static const dialogTheme = DialogTheme();
