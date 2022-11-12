@@ -23,11 +23,15 @@ class DialogStackEntry extends GetxController  {
   final EdgeInsets boundPadding;
   Widget _buildDialog(BoxConstraints constraints)  {
     if(isBounded)  {
-      offset = Offset(
-        offset.dx.clamp(boundPadding.left, constraints.maxWidth - size.width - boundPadding.right),
-        offset.dy.clamp(boundPadding.top, constraints.maxHeight - size.height - boundPadding.right),
+      WidgetsBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+          offset = Offset(
+            offset.dx.clamp(boundPadding.left, constraints.maxWidth - size.width - boundPadding.right),
+            offset.dy.clamp(boundPadding.top, constraints.maxHeight - size.height - boundPadding.right),
+          );
+          onBoundUpdate?.call(this);
+        }
       );
-      onBoundUpdate?.call(this);
     }
     return Positioned.fromRect(
       rect: offset & size,
