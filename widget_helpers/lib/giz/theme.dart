@@ -1,6 +1,6 @@
 part of giz;
 
-class CoreThemes {
+class GizThemes {
 
   static ThemeData get theme => ThemeData(
     primarySwatch: GizColors.darkPrimarySwatch,
