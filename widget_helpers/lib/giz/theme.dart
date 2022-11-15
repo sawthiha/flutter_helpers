@@ -160,7 +160,12 @@ class GizThemes {
 
   static const sliderTheme = SliderThemeData(
     activeTrackColor: GizColors.accent,
-    inactiveTrackColor: GizColors.darkPrimaryOpacity50,
+    inactiveTrackColor: GizColors.primaryOpacity20,
+    trackShape: RoundedRectSliderTrackShape(),
+    thumbShape: RoundSliderThumbShape(
+      enabledThumbRadius: 7,
+    ),
+    overlayShape: RoundSliderOverlayShape(overlayRadius: 0.0),
     thumbColor: GizColors.primary,
   );
 
