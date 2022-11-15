@@ -42,18 +42,25 @@ class GizThemes {
 
   static const textTheme = TextTheme(
     labelLarge: TextStyle(
-      color: GizColors.accent,
-      fontWeight: FontWeight.normal,
+      color: GizColors.primary,
+      fontSize: 17.0,
+    ),
+    labelMedium: TextStyle(
+      color: GizColors.primary,
       fontSize: 13.0,
+    ),
+    labelSmall: TextStyle(
+      color: GizColors.primary,
+      fontSize: 11.0,
     ),
     displayMedium: TextStyle(
       fontFamily: 'Halant',
-      color: GizColors.darkPrimary,
+      color: GizColors.primary,
       fontSize: 36,
     ),
     headlineMedium: TextStyle(
       fontFamily: 'Halant',
-      color: GizColors.darkPrimary,
+      color: GizColors.primary,
       fontSize: 21,
     ),
     titleLarge: TextStyle(
@@ -67,19 +74,16 @@ class GizThemes {
       fontWeight: FontWeight.normal
     ),
     bodyLarge: TextStyle(
-      fontFamily: 'Lato',
-      fontSize: 16,
-      color: GizColors.darkPrimary,
+      fontSize: 17,
+      color: GizColors.primary,
     ),
     bodyMedium: TextStyle(
-      fontFamily: 'Rubik',
       fontSize: 13,
-      color: GizColors.darkPrimary,
+      color: GizColors.primary,
     ),
     bodySmall: TextStyle(
-      fontFamily: 'Roboto',
-      fontSize: 13,
-      color: GizColors.darkPrimary,
+      fontSize: 11,
+      color: GizColors.primary,
     ),
   );
 
