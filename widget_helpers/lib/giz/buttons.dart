@@ -115,3 +115,38 @@ class ToggleButton extends StatelessWidget  {
   );
 
 }
+
+class TextButtonBar extends StatelessWidget  {
+
+  final String currentValue;
+  final Iterable<String> values;
+  final ValueChanged<String> onChanged;
+
+  const TextButtonBar({super.key, required this.currentValue, required this.values, required this.onChanged});
+  
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      Wrap(
+        spacing: 13.0,
+        children: [
+          for(var value in values)
+            InkWell(
+              child: Text(value,
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  fontWeight: value == currentValue ? FontWeight.w600: FontWeight.w400,
+                  color: value == currentValue ? GizColors.primary: GizColors.primaryOpacity60,
+                ),
+              ),
+              onTap: ()  {
+                onChanged(value);
+              },
+            ),
+        ],
+      ),
+    ],
+  );
+  
+}
+
+

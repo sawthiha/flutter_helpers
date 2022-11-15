@@ -12,3 +12,5 @@ part 'buttons.dart';
 part 'controls.dart';
 part 'popup.dart';
 part 'dialog_stack.dart';
+part 'switcher.dart';
+part 'text_input.dart';
