@@ -415,6 +415,7 @@ class TextStyleConverter extends JsonConverter<TextStyle, dynamic>  {
     backgroundColor: nullableColorConverter.fromJson(json['backgroundColor']),
     foreground: nullablePaintConverter.fromJson(json['foregroundPaint']),
     background: nullablePaintConverter.fromJson(json['backgroundPaint']),
+    letterSpacing: json['letterSpacing'] ?? 0.0,
   );
 
   @override
@@ -427,6 +428,7 @@ class TextStyleConverter extends JsonConverter<TextStyle, dynamic>  {
     'backgroundColor': nullableColorConverter.toJson(object.backgroundColor),
     'foregroundPaint': nullablePaintConverter.toJson(object.foreground),
     'backgroundPaint': nullablePaintConverter.toJson(object.background),
+    'letterSpacing': object.letterSpacing ?? 0.0,
   };
 
 }
