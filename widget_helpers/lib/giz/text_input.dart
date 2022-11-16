@@ -1,6 +1,6 @@
 part of giz;
 
-class TextBox extends StatelessWidget  {
+class TextBox extends StatefulWidget  {
 
   final int? minLines;
   final int? maxLines;
@@ -15,9 +15,23 @@ class TextBox extends StatelessWidget  {
   });
 
   @override
+  State<TextBox> createState() => _TextBoxState();
+}
+
+class _TextBoxState extends State<TextBox> {
+
+  late final TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.initialValue);
+  }
+
+  @override
   Widget build(BuildContext context) => TextField(
-    minLines: minLines,
-    maxLines: maxLines,
+    minLines: widget.minLines,
+    maxLines: widget.maxLines,
     decoration: InputDecoration(
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(3.0),
@@ -42,7 +56,7 @@ class TextBox extends StatelessWidget  {
       ),
     ),
     style: Theme.of(context).textTheme.bodyMedium,
-    controller: TextEditingController(text: initialValue),
-    onChanged: onChanged,
+    controller: controller,
+    onChanged: widget.onChanged,
   );
 }

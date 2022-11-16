@@ -169,7 +169,18 @@ class GizThemes {
     thumbColor: GizColors.primary,
   );
 
-  static const dialogTheme = DialogTheme();
+  static const dialogTheme = DialogTheme(
+    backgroundColor: GizColors.darkPrimary,
+    contentTextStyle: TextStyle(
+      color: GizColors.primary,
+      fontSize: 13.0,
+    ),
+    titleTextStyle: TextStyle(
+      color: GizColors.primary,
+      fontSize: 17.0,
+    ),
+    iconColor: GizColors.primary,
+  );
 
 }
 
