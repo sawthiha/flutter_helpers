@@ -21,6 +21,14 @@ class GizThemes {
     sliderTheme: sliderTheme,
     dialogTheme: dialogTheme,
   );
+  
+  static final outlinedButtonTheme = OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      backgroundColor: GizColors.darkPrimaryOpacity20,
+      side: const BorderSide(width: 1.0, color: GizColors.primary),
+      foregroundColor: GizColors.primary,
+    ),
+  );
 
   static final textButtonTheme = TextButtonThemeData(
     style: ButtonStyle(
