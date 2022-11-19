@@ -6,6 +6,8 @@ class GizSlidingSegmentedControl<T extends Object> extends StatelessWidget  {
   final Size tabSize;
   final void Function(T?) onValueChanged;
   final T value;
+  final Color? backgroundColor;
+  final Color? thumbColor;
 
   const GizSlidingSegmentedControl({
     Key? key,
@@ -13,6 +15,8 @@ class GizSlidingSegmentedControl<T extends Object> extends StatelessWidget  {
     required this.children,
     required this.tabSize,
     required this.value,
+    this.backgroundColor,
+    this.thumbColor,
   }) : super(key: key);
 
   @override
@@ -27,10 +31,10 @@ class GizSlidingSegmentedControl<T extends Object> extends StatelessWidget  {
         ),
       ),
     ),
-    backgroundColor: Color.alphaBlend(
+    backgroundColor: backgroundColor ?? Color.alphaBlend(
       GizColors.primary.withOpacity(0.1), GizColors.darkPrimary.withOpacity(0.5),
     ),
-    thumbColor: Color.alphaBlend(
+    thumbColor: thumbColor ?? Color.alphaBlend(
       GizColors.primary.withOpacity(0.3), GizColors.darkPrimary.withOpacity(0.1),
     ),
     onValueChanged: onValueChanged,
