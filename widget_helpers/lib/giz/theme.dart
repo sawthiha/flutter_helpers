@@ -14,6 +14,7 @@ class GizThemes {
     highlightColor: GizColors.accent.withAlpha(10),
     focusColor: GizColors.accent.withAlpha(10),
     elevatedButtonTheme: elevatedButtonTheme,
+    outlinedButtonTheme: outlinedButtonTheme,
     chipTheme: chipTheme,
     dialogBackgroundColor: GizColors.darkPrimary,
     inputDecorationTheme: inputDecorationTheme,
