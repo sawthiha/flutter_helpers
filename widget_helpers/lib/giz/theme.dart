@@ -61,6 +61,7 @@ class GizThemes {
     labelSmall: TextStyle(
       color: GizColors.primary,
       fontSize: 11.0,
+      letterSpacing: 0.0,
     ),
     displayMedium: TextStyle(
       fontFamily: 'Halant',
