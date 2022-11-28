@@ -2,6 +2,8 @@ part of giz;
 
 class DialogStackEntry extends GetxController  {
 
+  final bool isAlwaysClosable;
+
   final RxBool _isDetached;
   bool get isDetached => _isDetached.value;
   set isDetached(bool isDetached)  {
@@ -37,6 +39,7 @@ class DialogStackEntry extends GetxController  {
       rect: offset & size,
       child: isDraggable ? DraggableDialogEntry(
         child: _widget,
+        isAlwaysClosable: isAlwaysClosable,
         entry: this,
         onDragStart: onDragStart,
         onDragEnd: onDragEnd,
@@ -59,6 +62,7 @@ class DialogStackEntry extends GetxController  {
     Size size = Size.zero,
     bool isDetached = false,
     required Widget widget,
+    this.isAlwaysClosable = false,
     this.isBounded = true,
     this.onBoundUpdate,
     this.isDraggable = false,
@@ -128,6 +132,7 @@ class DraggableDialogEntry extends StatelessWidget  {
   final Size draggableSize;
   final Size draggableArea;
   final DialogStackEntry entry;
+  final bool isAlwaysClosable;
   final void Function(DialogStackEntry entry)? onClose;
   final void Function(DialogStackEntry entry)? onDragStart;
   final void Function(DialogStackEntry entry)? onDragEnd;
@@ -137,6 +142,7 @@ class DraggableDialogEntry extends StatelessWidget  {
     this.onClose,
     this.onDragStart,
     this.onDragEnd,
+    this.isAlwaysClosable = false,
     this.draggableSize = const Size(56, 5),
     this.draggableArea = const Size(70, 44), required this.entry
   });
@@ -160,7 +166,7 @@ class DraggableDialogEntry extends StatelessWidget  {
         child: Padding(
           padding: const EdgeInsets.all(13.0),
           child: Obx(
-            () => !entry.isDetached ? Container()
+            () => (isAlwaysClosable || !entry.isDetached) ? Container()
               : InkWell(
                 onTap: () => onClose?.call(entry),
                 child: const Icon(Icons.close,
