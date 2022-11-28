@@ -166,7 +166,7 @@ class DraggableDialogEntry extends StatelessWidget  {
         child: Padding(
           padding: const EdgeInsets.all(13.0),
           child: Obx(
-            () => (!entry.isDetached || !isAlwaysClosable) ? Container()
+            () => (!entry.isDetached && !isAlwaysClosable) ? Container()
               : InkWell(
                 onTap: () => onClose?.call(entry),
                 child: const Icon(Icons.close,
