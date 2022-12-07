@@ -772,3 +772,27 @@ class NullableDoubleListConverter extends JsonConverter<List<double>?, dynamic> 
   toJson(List<double>? object) => object;
 
 }
+
+class IntergerListConverter extends JsonConverter<List<int>, dynamic>  {
+
+  const IntergerListConverter();
+  
+  @override
+  List<int> fromJson(json) => json.cast<int>().toList();
+  
+  @override
+  toJson(List<int> object) => object;
+
+}
+
+class NullableIntergerListConverter extends JsonConverter<List<int>?, dynamic>  {
+
+  const NullableIntergerListConverter();
+  
+  @override
+  List<int>? fromJson(json) => (json as Iterable<dynamic>?)?.cast<int>().toList();
+  
+  @override
+  toJson(List<int>? object) => object;
+
+}
