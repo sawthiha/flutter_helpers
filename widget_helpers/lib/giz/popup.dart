@@ -86,16 +86,16 @@ extension PopupMenuAlignmentRect on PopupMenuAlignment {
     Offset center;
     switch (this) {
       case PopupMenuAlignment.top:
-        center = Offset(targetRect.center.dx, targetRect.top - (size.height / 2) - triangleHeight);
+        center = Offset(targetRect.center.dx, targetRect.top - (size.height / 2) - triangleHeight) + offset;
         break;
       case PopupMenuAlignment.bottom:
-        center = Offset(targetRect.center.dx, targetRect.bottom + (size.height / 2) + triangleHeight);
+        center = Offset(targetRect.center.dx, targetRect.bottom + (size.height / 2) + triangleHeight) + offset;
         break;
       case PopupMenuAlignment.left:
-        center = Offset(targetRect.left - (size.width / 2) - triangleHeight, targetRect.center.dy);
+        center = Offset(targetRect.left - (size.width / 2) - triangleHeight, targetRect.center.dy) + offset;
         break;
       default:
-        center = Offset(targetRect.right + (size.width / 2) + triangleHeight, targetRect.center.dy);
+        center = Offset(targetRect.right + (size.width / 2) + triangleHeight, targetRect.center.dy) + offset;
     }
     return Rect.fromCenter(
       center: center,
