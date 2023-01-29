@@ -25,7 +25,7 @@ DialogStackEntry showPopupOnDialogStack({
   int? index,
 }) {
   final alignmentRx = Rx<PopupMenuAlignment>(alignment);
-  final rect = controller?.calculateRect(alignment: alignmentRx.value, size: size, offset: offset, triangleHeight: 15);
+  final rect = controller?.calculateRect(alignment: alignmentRx.value, size: size, offset: offset, triangleHeight: triangleHeight);
   final popupOffsetRx = Rx<double>(controller?.calculateOffset(alignment: alignmentRx.value, rect: rect!) ?? 0.0);
   final entry = DialogStackEntry(
     isBounded: isBounded,
