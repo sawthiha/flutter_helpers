@@ -3,13 +3,14 @@ part of giz;
 class GizFloatingButton extends StatelessWidget {
   final Widget child;
   final VoidCallback onPressed;
+  final VoidCallback onLongPressed;
   final double? width;
   final double? height;
   final bool isSelected;
 
   const GizFloatingButton({
     Key? key,
-    required this.onPressed,
+    required this.onPressed, required this.onLongPressed,
     required this.child,
     this.width = 55.0,
     this.height = 55.0,
@@ -20,6 +21,7 @@ class GizFloatingButton extends StatelessWidget {
   Widget build(BuildContext context) => Material(
     color: Colors.transparent,
     child: InkWell(
+      onLongPress: onLongPressed,
       onTap: onPressed,
       customBorder: const CircleBorder(),
       borderRadius: BorderRadius.circular(55.0),
