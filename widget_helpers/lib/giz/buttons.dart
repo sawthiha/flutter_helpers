@@ -2,15 +2,16 @@ part of giz;
 
 class GizFloatingButton extends StatelessWidget {
   final Widget child;
-  final VoidCallback onPressed;
-  final VoidCallback onLongPressed;
+  final VoidCallback? onPressed;
+  final VoidCallback? onLongPressed;
   final double? width;
   final double? height;
   final bool isSelected;
 
   const GizFloatingButton({
     Key? key,
-    required this.onPressed, required this.onLongPressed,
+    this.onPressed,
+    this.onLongPressed,
     required this.child,
     this.width = 55.0,
     this.height = 55.0,
