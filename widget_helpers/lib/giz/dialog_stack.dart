@@ -86,6 +86,9 @@ class DialogStackController extends GetxController  {
   }
   DialogStackEntry? getEntry(int index) => _entries[index];
   DialogStackEntry? deregisterEntry(int index)  => _entries.remove(index);
+  void deregisterAllEntries()  {
+    _entries.clear();
+  }
   Iterable<DialogStackEntry> get entries => _entries.values.toList();
   bool containsKey(int idx) => _entries.containsKey(idx);
 
