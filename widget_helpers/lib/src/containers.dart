@@ -296,3 +296,30 @@ class ElapsingOpacityContainer extends HookWidget   {
   }
 
 }
+
+class ResponsiveWidget extends StatelessWidget  {
+
+  final Widget Function(BuildContext, BoxConstraints) mobileWidgetBuilder;
+  final Widget Function(BuildContext, BoxConstraints) tabletWidgetBuilder;
+  final Widget Function(BuildContext, BoxConstraints) desktopWidgetBuilder;
+
+  const ResponsiveWidget({super.key,
+    required this.mobileWidgetBuilder,
+    required this.tabletWidgetBuilder,
+    required this.desktopWidgetBuilder,
+  });
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) => isMobile ? mobileWidgetBuilder(context, constraints)
+      : isTablet ? tabletWidgetBuilder(context, constraints)
+      : desktopWidgetBuilder(context, constraints),
+  );
+
+  static bool get isMobile => Get.size.width < 850;
+  static bool get isTablet => Get.size.width < 1100 &&
+    Get.size.width >= 850;
+  static bool get isDesktop => Get.size.width >= 1100;
+  static bool get isPortrait => Get.size.aspectRatio < 1.0;
+
+}
