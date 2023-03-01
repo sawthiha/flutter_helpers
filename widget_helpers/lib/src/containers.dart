@@ -113,6 +113,22 @@ class _OverlayedContainerState extends State<OverlayedContainer> {
 
 class PerspectiveController extends GetxController  {
 
+  final double minRotationX;
+  final double maxRotationX;
+  final double minRotationY;
+  final double maxRotationY;
+  final double minRotationZ;
+  final double maxRotationZ;
+
+  PerspectiveController({
+    this.minRotationX = 0.0,
+    this.maxRotationX = 0.61,
+    this.minRotationY = 0.0,
+    this.maxRotationY = 0.61,
+    this.minRotationZ = 0.0,
+    this.maxRotationZ = 0.61,
+  });
+
   final _transform = (Matrix4.identity()
     ..setEntry(3, 2, 0.001)).obs;
   Matrix4 get transform => _transform.value;
@@ -154,26 +170,26 @@ class PerspectiveController extends GetxController  {
   double get rotationX => rotationRx.value.storage[0];
   set rotationX(double rotation)  {
     rotationRx.value = rotationRx.value.clone()
-      ..storage[0] = rotation;
+      ..storage[0] = rotation.clamp(minRotationX, maxRotationX);
     _updateRotation();
   }
   double get rotationY => rotationRx.value.storage[1];
   set rotationY(double rotation)  {
     rotationRx.value = rotationRx.value.clone()
-      ..storage[1] = rotation;
+      ..storage[1] = rotation.clamp(minRotationY, maxRotationY);
     _updateRotation();
   }
   double get rotationZ => rotationRx.value.storage[2];
   set rotationZ(double rotation)  {
     rotationRx.value = rotationRx.value.clone()
-      ..storage[2] = rotation;
+      ..storage[2] = rotation.clamp(minRotationZ, maxRotationZ);
     _updateRotation();
   }
   void setRotation(double x, double y, double z)  {
     rotationRx.value = rotationRx.value.clone()
-      ..storage[0] = x
-      ..storage[1] = y
-      ..storage[2] = z;
+      ..storage[0] = x.clamp(minRotationX, maxRotationX)
+      ..storage[1] = y.clamp(minRotationY, maxRotationY)
+      ..storage[2] = z.clamp(minRotationZ, maxRotationZ);
     _updateRotation();
   }
   void _updateRotation()  {
