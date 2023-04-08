@@ -73,3 +73,17 @@ double calculateJaroWinklerDistance(
   return jaroSimilarity > threshold ? jaroSimilarity + math.min(jwCoef, 1.0 / prefix) * prefix * (1 - jaroSimilarity)
     : jaroSimilarity;
 }
+
+extension JaroWinklerDistanceSortExtension on Iterable<String>  {
+
+  Iterable<String> sortByJaroWinklerDistance(String target, {bool isDescending = true})  {
+    final values = toList();
+    final scores = {
+      for(var value in values)
+        value: calculateJaroWinklerDistance(value, target),
+    };
+    values.sort((s1, s2) => scores[s2]!.compareTo(scores[s1]!));
+    return values;
+  }
+
+}
