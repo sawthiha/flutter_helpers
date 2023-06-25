@@ -79,27 +79,34 @@ class GizDialogContainer extends StatelessWidget {
   final BorderRadius borderRadius;
   final Widget child;
   final VoidCallback? onClose;
-  final double closeButtonSize;
-  final double closeButtonIconSize;
-  final EdgeInsets closeButtonPadding;
-  final double foregroundOpacity;
-  final double backgroundOpacity;
+  final Widget closeButton;
+  final Border border;
+  final Color backgroundColor;
 
   const GizDialogContainer({
     Key? key,
     required this.child,
-    this.closeButtonSize = 34.0,
-    this.closeButtonIconSize = 21.0,
-    this.closeButtonPadding = const EdgeInsets.only(
-      top: 27.99,
-      right: 17.29,
+    this.closeButton = const SizedBox(
+        width: 44,
+        height: 44,
+        child: Center(
+          child: Icon(Icons.close,
+            size: 21.0,
+            color: GizColors.primary,
+          ),
+        ),
+      ),
+    this.backgroundColor = GizColors.darkPrimary,
+    this.border = const Border.fromBorderSide(
+      BorderSide(
+        color: GizColors.primaryOpacity50,
+        width: 0.5,
+      ),
     ),
-    this.foregroundOpacity = 0.5,
-    this.backgroundOpacity = 0.2,
     
     this.onClose,
-    this.size = const Size(889, 633),
-    this.borderRadius = const BorderRadius.all(Radius.circular(27.99)),
+    this.size = const Size(500, 500),
+    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
   }) : super(key: key);
 
   @override
@@ -110,41 +117,26 @@ class GizDialogContainer extends StatelessWidget {
     contentPadding: const EdgeInsets.all(0.0),
     insetPadding: const EdgeInsets.all(0.0),
     actionsPadding: const EdgeInsets.all(0.0),
-    content: GizGlassyContainer(
+    content: Container(
       width: size.width,
       height: size.height,
-      foregroundColor: GizColors.darkPrimary.withOpacity(foregroundOpacity),
-      backgroundColor: GizColors.darkPrimary.withOpacity(backgroundOpacity),
-      borderRadius: borderRadius,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: borderRadius,
+        border: border,
+      ),
       child: Stack(
         children: [
           child,
           Align(
             alignment: Alignment.topRight,
-            child: Padding(
-              padding: closeButtonPadding,
-              child: Container(
-                width: closeButtonSize,
-                height: closeButtonSize,
-                decoration: BoxDecoration(
-                  color: GizColors.primary,
-                  borderRadius: BorderRadius.circular(closeButtonSize / 2),
-                ),
-                child: InkWell(
-                  onTap: onClose,
-                  child: Icon(
-                    Icons.close,
-                    size: closeButtonIconSize,
-                    color: GizColors.warning,
-                  ),
-                ),
-              ),
+            child: InkWell(
+              onTap: onClose,
+              child: closeButton,
             ),
           ),
         ],
       ),
-      sigmaX: 40,
-      sigmaY: 40,
     ),
   );
 }
