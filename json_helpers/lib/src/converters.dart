@@ -718,7 +718,7 @@ class BoxDecorationConverter extends JsonConverter<BoxDecoration, dynamic>  {
     'shape': boxShapeConverter.toJson(object.shape),
     'blendMode': blendModeConverter.toJson(object.backgroundBlendMode),
     'borderRadius': borderRadiusConverter.toJson(object.borderRadius?.resolve(null)),
-    'border': borderConverter.toJson(object.border != null ? object.border as Border: null),
+    'border': borderConverter.toJson(object.border != null && object.border is Border ? object.border as Border: null),
   };
 
 }
