@@ -6,7 +6,7 @@ typedef FlexibleIterationCallback = void Function(int idx);
 /// [FlexibleIterator] interface
 /// 
 /// extends [BidirectionalIterator]
-abstract class FlexibleIterator<T> extends BidirectionalIterator<T> {
+abstract class FlexibleIterator<T> {
 
   FlexibleIterator();
 
@@ -46,6 +46,10 @@ abstract class FlexibleIterator<T> extends BidirectionalIterator<T> {
 
   /// Move to cursor to specific index
   void move(int to);
+
+  T get current;
+  bool moveNext();
+  bool movePrevious();
 
   /// Add Listener to the cursor changes
   void addListener(FlexibleIterationCallback callback);

@@ -1,6 +1,6 @@
+import 'package:dart_helpers/dart_generics.dart';
 import 'package:test/test.dart';
 
-import 'package:dart_generics/dart_generics.dart';
 
 void main()  {
   group('FlexibleIterator Test', () {

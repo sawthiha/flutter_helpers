@@ -1,8 +1,7 @@
 import 'dart:async';
 
+import 'package:dart_helpers/dart_generics.dart';
 import 'package:test/test.dart';
-
-import 'package:dart_generics/dart_generics.dart';
 
 import '../mock.dart';
 

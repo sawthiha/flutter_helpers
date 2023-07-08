@@ -1,4 +1,4 @@
-import 'package:dart_generics/dart_generics.dart';
+import 'package:dart_helpers/dart_generics.dart';
 
 class Counter extends Observer<int>   {
   int count = 0;

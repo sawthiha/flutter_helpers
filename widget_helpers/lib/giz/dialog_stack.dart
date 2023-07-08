@@ -118,7 +118,6 @@ class DialogStack extends StatelessWidget  {
                   onForcePressStart: (_) => controller.onOutOfBoundGesture(controller.entries.elementAt(i)),
                   onScaleStart: (_) => controller.onOutOfBoundGesture(controller.entries.elementAt(i)),
                   behavior: HitTestBehavior.translucent,
-                  kSlop: 1.0,
                 ),
               controller.entries.elementAt(i)._buildDialog(constraints),
             ],
@@ -202,7 +201,6 @@ class DialogEntryDragger extends StatelessWidget  {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-    kSlop: 0.0,
     behavior: HitTestBehavior.translucent,
     onPanStart: (details) {
       onDragStart?.call(entry);
