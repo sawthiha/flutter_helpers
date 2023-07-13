@@ -1,31 +1,41 @@
 part of json_helpers;
 
 /// Color Json Converter
-class ColorConverter extends JsonConverter<Color, int>  {
+class ColorConverter extends JsonConverter<Color, dynamic>  {
+
+  static Color _defaultFallback() => Colors.transparent;
+
+  final Color Function() fallback;
 
   /// Const Constructor (Necessary for Annotation)
-  const ColorConverter();
+  const ColorConverter(
+    {
+      this.fallback = _defaultFallback,
+    }
+  );
 
   @override
-  Color fromJson(int json) => Color(json);
+  Color fromJson(json)
+    => json != null && json is int ? Color(json)
+    : fallback();
 
   @override
-  int toJson(Color object) => object.value;
+  dynamic toJson(Color object) => object.value;
 
 }
 
 /// Nullable Color Json Converter
-class NullableColorConverter extends JsonConverter<Color?, int>  {
+class NullableColorConverter extends JsonConverter<Color?, dynamic>  {
 
   /// const constructor
   const NullableColorConverter();
 
   @override
-  Color? fromJson(int json) => json < 0 ? null
+  Color? fromJson(json) => json != null && json is int && json < 0 ? null
     : Color(json);
 
   @override
-  int toJson(Color? object) => object == null ? -1: object.value;
+  dynamic toJson(Color? object) => object == null ? -1: object.value;
 
 }
 
@@ -37,8 +47,9 @@ class ColorListConverter extends JsonConverter<List<Color>, dynamic>  {
 
   @override
   List<Color> fromJson(json) => [
-    for(var color in json)
-      colorConverter.fromJson(color),
+    if(json != null)
+      for(var color in json)
+        colorConverter.fromJson(color),
   ];
 
   @override
@@ -52,13 +63,22 @@ class ColorListConverter extends JsonConverter<List<Color>, dynamic>  {
 /// Size Json Converter
 class SizeConverter extends JsonConverter<Size, dynamic>  {
 
+  static bool _checkIfValidJson(json) => json != null && json is Map && json.containsKey('width') && json.containsKey('height');
+  
+  static Size _defaultFallback() => Size.zero;
+
+  final Size Function() fallback;
+
   /// Const Constructor (Necessary for Annotation)
-  const SizeConverter();
+  const SizeConverter({
+    this.fallback = _defaultFallback,
+  });
 
   @override
-  Size fromJson(dynamic json) => Size(
-    json['width'], json['height']
-  );
+  Size fromJson(dynamic json) =>
+    _checkIfValidJson(json) ? Size(
+      json['width'], json['height']
+    ): fallback();
 
   @override
   dynamic toJson(Size object) => {
@@ -76,7 +96,7 @@ class NullableSizeConverter extends JsonConverter<Size?, dynamic>  {
 
   @override
   Size? fromJson(dynamic json)
-    => json.containsKey('width') && json.containsKey('height') ?
+    => SizeConverter._checkIfValidJson(json) ?
       Size(
         json['width'], json['height']
       ): null;
@@ -93,13 +113,19 @@ class NullableSizeConverter extends JsonConverter<Size?, dynamic>  {
 }
 
 /// Duration Json Converter
-class DurationConverter extends JsonConverter<Duration, int>  {
+class DurationConverter extends JsonConverter<Duration, dynamic>  {
+
+  static Duration _defaultFallback() => Duration.zero;
+
+  final Duration Function() fallback;
 
   /// Const Constructor (Necessary for Annotation)
-  const DurationConverter();
+  const DurationConverter({
+    this.fallback = _defaultFallback,
+  });
 
   @override
-  Duration fromJson(int json) => Duration(microseconds: json);
+  Duration fromJson(json) => json != null && json is int ? Duration(microseconds: json): fallback.call();
 
   @override
   int toJson(Duration object) => object.inMicroseconds;
