@@ -135,13 +135,17 @@ class DurationConverter extends JsonConverter<Duration, dynamic>  {
 /// List of Duration Json Converter
 class DurationListConverter extends JsonConverter<List<Duration>, dynamic>  {
 
+  static List<Duration> _defaultFallback() => [];
+  final List<Duration> Function() fallback;
   /// Const Constructor (Necessary for Annotation)
-  const DurationListConverter();
+  const DurationListConverter({
+    this.fallback = _defaultFallback,
+  });
 
   @override
-  List<Duration> fromJson(dynamic json) => [
+  List<Duration> fromJson(dynamic json) => json == null || json is! Iterable ? fallback(): [
     for (var durJson in json)
-    Duration(microseconds: durJson),
+      Duration(microseconds: durJson),
   ];
 
   @override
@@ -155,11 +159,21 @@ class DurationListConverter extends JsonConverter<List<Duration>, dynamic>  {
 /// DateTime Json Converter
 class DateTimeConverter extends JsonConverter<DateTime, String>  {
 
+  static DateTime _defaultFallback() => DateTime.now();
+  final DateTime Function() fallback;
   /// Const Constructor (Necessary for Annotation)
-  const DateTimeConverter();
+  const DateTimeConverter({
+    this.fallback = _defaultFallback,
+  });
 
   @override
-  DateTime fromJson(String json) => DateTime.parse(json);
+  DateTime fromJson(String json) {
+    try {
+      return DateTime.parse(json);
+    } catch (e) {
+      return fallback();
+    }
+  }
 
   @override
   String toJson(DateTime object) => object.toIso8601String();
