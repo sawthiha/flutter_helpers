@@ -32,9 +32,12 @@ class Panel extends StatelessWidget  {
         width: direction == Axis.vertical || direction == null ? 44.0: null,
         height: direction == Axis.horizontal || direction == null ? 44.0: null,
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: borderRadius,
-          border: border,
+          color: backgroundColor ?? Theme.of(context).colorScheme.surface,
+          borderRadius: borderRadius ?? BorderRadius.circular(8.0),
+          border: border ?? Border.all(
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            width: 1.5,
+          ),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
