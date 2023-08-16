@@ -6,12 +6,18 @@ class Panel extends StatelessWidget  {
   final double spacing;
   final List<Widget> children;
   final Alignment animAlignment;
+  final Color? backgroundColor;
+  final BorderRadius? borderRadius;
+  final BoxBorder? border;
 
   const Panel({super.key,
     this.direction = Axis.vertical,
     this.spacing = 5.0,
     required this.children,
     this.animAlignment = Alignment.center,
+    this.backgroundColor,
+    this.borderRadius,
+    this.border,
   });
 
   @override
@@ -26,12 +32,9 @@ class Panel extends StatelessWidget  {
         width: direction == Axis.vertical || direction == null ? 44.0: null,
         height: direction == Axis.horizontal || direction == null ? 44.0: null,
         decoration: BoxDecoration(
-          color: GizColors.darkPrimary,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: GizColors.primaryOpacity30,
-            width: 1.0,
-          ),
+          color: backgroundColor,
+          borderRadius: borderRadius,
+          border: border,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
