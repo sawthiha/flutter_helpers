@@ -76,47 +76,51 @@ class GizFloatingContainer extends StatelessWidget  {
 
 class GizDialogContainer extends StatelessWidget {
   final Size size;
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   final Widget child;
   final VoidCallback? onClose;
   final Widget closeButton;
-  final Border border;
-  final Color backgroundColor;
+  final Border? border;
+  final Color? backgroundColor;
+  final EdgeInsetsGeometry titlePadding;
+  final EdgeInsetsGeometry buttonPadding;
+  final EdgeInsetsGeometry contentPadding;
+  final EdgeInsets insetPadding;
+  final EdgeInsetsGeometry actionsPadding;
 
   const GizDialogContainer({
     Key? key,
     required this.child,
+    this.titlePadding = const EdgeInsets.all(0.0),
+    this.buttonPadding = const EdgeInsets.all(0.0),
+    this.contentPadding = const EdgeInsets.all(0.0),
+    this.insetPadding = const EdgeInsets.all(0.0),
+    this.actionsPadding = const EdgeInsets.all(0.0),
     this.closeButton = const SizedBox(
         width: 44,
         height: 44,
         child: Center(
           child: Icon(Icons.close,
             size: 21.0,
-            color: GizColors.primary,
           ),
         ),
       ),
-    this.backgroundColor = GizColors.darkPrimary,
-    this.border = const Border.fromBorderSide(
-      BorderSide(
-        color: GizColors.primaryOpacity50,
-        width: 0.5,
-      ),
-    ),
+    this.backgroundColor,
+    this.border,
     
     this.onClose,
     this.size = const Size(500, 500),
-    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
+    this.borderRadius,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => AlertDialog(
     backgroundColor: Colors.transparent,
-    titlePadding: const EdgeInsets.all(0.0),
-    buttonPadding: const EdgeInsets.all(0.0),
-    contentPadding: const EdgeInsets.all(0.0),
-    insetPadding: const EdgeInsets.all(0.0),
-    actionsPadding: const EdgeInsets.all(0.0),
+    titlePadding: titlePadding,
+    buttonPadding: buttonPadding,
+    contentPadding: contentPadding,
+    insetPadding: insetPadding,
+    actionsPadding: actionsPadding,
     content: Container(
       width: size.width,
       height: size.height,
@@ -128,13 +132,14 @@ class GizDialogContainer extends StatelessWidget {
       child: Stack(
         children: [
           child,
-          Align(
-            alignment: Alignment.topRight,
-            child: InkWell(
-              onTap: onClose,
-              child: closeButton,
+          if(onClose != null)
+            Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: onClose,
+                child: closeButton,
+              ),
             ),
-          ),
         ],
       ),
     ),
