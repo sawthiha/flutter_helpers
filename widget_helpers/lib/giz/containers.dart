@@ -125,9 +125,12 @@ class GizDialogContainer extends StatelessWidget {
       width: size.width,
       height: size.height,
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: borderRadius,
-        border: border,
+        color: backgroundColor ?? Theme.of(context).colorScheme.surface,
+        borderRadius: borderRadius ?? BorderRadius.circular(13.0),
+        border: border ?? Border.all(
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+          width: 1.5,
+        ),
       ),
       child: Stack(
         children: [
