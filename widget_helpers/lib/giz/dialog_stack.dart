@@ -21,7 +21,7 @@ class DialogStackEntry extends GetxController  {
     _size.value = size;
   }
 
-  final Widget _widget;
+  final WidgetBuilder _builder;
   final EdgeInsets boundPadding;
   Widget _buildDialog(BoxConstraints constraints)  {
     if(isBounded)  {
@@ -38,13 +38,13 @@ class DialogStackEntry extends GetxController  {
     return Positioned.fromRect(
       rect: offset & size,
       child: isDraggable ? DraggableDialogEntry(
-        child: _widget,
+        builder: _builder,
         isAlwaysClosable: isAlwaysClosable,
         entry: this,
         onDragStart: onDragStart,
         onDragEnd: onDragEnd,
         onClose: onDialogClose,
-      ):_widget,
+      ): Builder(builder: _builder),
     );
   }
 
@@ -61,7 +61,7 @@ class DialogStackEntry extends GetxController  {
     Offset offset = Offset.zero,
     Size size = Size.zero,
     bool isDetached = false,
-    required Widget widget,
+    required WidgetBuilder builder,
     this.isAlwaysClosable = false,
     this.isBounded = true,
     this.onBoundUpdate,
@@ -73,7 +73,7 @@ class DialogStackEntry extends GetxController  {
   }): _isDetached = isDetached.obs,
     _offset = offset.obs,
     _size = size.obs,
-    _widget = widget;
+    _builder = builder;
 
 
 }
@@ -130,7 +130,7 @@ class DialogStack extends StatelessWidget  {
 
 class DraggableDialogEntry extends StatelessWidget  {
 
-  final Widget child;
+  final WidgetBuilder builder;
   final Size draggableSize;
   final Size draggableArea;
   final DialogStackEntry entry;
@@ -140,7 +140,7 @@ class DraggableDialogEntry extends StatelessWidget  {
   final void Function(DialogStackEntry entry)? onDragEnd;
 
   const DraggableDialogEntry({super.key,
-    required this.child,
+    required this.builder,
     this.onClose,
     this.onDragStart,
     this.onDragEnd,
@@ -152,7 +152,7 @@ class DraggableDialogEntry extends StatelessWidget  {
   @override
   Widget build(BuildContext context) => Stack(
     children: [
-      child,
+      builder(context),
       Align(
         alignment: Alignment.topCenter,
         child: DialogEntryDragger(

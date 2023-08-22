@@ -1,7 +1,7 @@
 part of giz;
 
 DialogStackEntry showPopupOnDialogStack({
-  required Widget widget,
+  required WidgetBuilder builder,
   required PopupMenuController? controller,
   required PopupMenuAlignment alignment,
   required Size size,
@@ -50,9 +50,9 @@ DialogStackEntry showPopupOnDialogStack({
       dialogController.onOutOfBoundGesture(entry);
       onClose?.call(entry);
     },
-    widget: Obx(
+    builder: (context) => Obx(
       () => PopupMenu(
-        child: widget,
+        builder: builder,
         offset: popupOffsetRx.value,
         alignment: alignmentRx.value,
         color: color,
@@ -168,7 +168,7 @@ class PopupMenuTarget extends StatelessWidget  {
 
 class PopupMenu extends StatelessWidget  {
 
-  final Widget child;
+  final WidgetBuilder builder;
   final PopupMenuAlignment alignment;
   final Color? color;
   final List<BoxShadow> shadows;
@@ -179,7 +179,7 @@ class PopupMenu extends StatelessWidget  {
   final double triangleHeight;
 
   const PopupMenu({super.key,
-    required this.child,
+    required this.builder,
     required this.alignment,
     required this.side,
     required this.borderRadius,
@@ -204,7 +204,7 @@ class PopupMenu extends StatelessWidget  {
         triangleHeight: triangleHeight,
       ),
     ),
-    child: child
+    child: builder(context)
   );
 
 }
