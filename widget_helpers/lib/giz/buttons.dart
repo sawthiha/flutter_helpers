@@ -124,8 +124,16 @@ class TextButtonBar extends StatelessWidget  {
   final String currentValue;
   final Iterable<String> values;
   final ValueChanged<String> onChanged;
+  final Color? selectedTextColor;
+  final Color? textColor;
 
-  const TextButtonBar({super.key, required this.currentValue, required this.values, required this.onChanged});
+  const TextButtonBar({super.key,
+    required this.currentValue,
+    required this.values,
+    required this.onChanged,
+    this.selectedTextColor,
+    this.textColor,
+  });
   
   @override
   Widget build(BuildContext context) => Row(
@@ -138,7 +146,7 @@ class TextButtonBar extends StatelessWidget  {
               child: Text(value,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   fontWeight: value == currentValue ? FontWeight.w600: FontWeight.w400,
-                  color: value == currentValue ? GizColors.primary: GizColors.primaryOpacity60,
+                  color: value == currentValue ? textColor: selectedTextColor,
                 ),
               ),
               onTap: ()  {
