@@ -60,7 +60,7 @@ class Panel extends StatelessWidget  {
 
 class PanelEntry extends HookWidget  {
 
-  final PopupMenuController controller = PopupMenuController();
+  final PopupMenuController popupController;
   final Widget child;
   final bool isToggled;
   final void Function(PopupMenuController controller)? onTap;
@@ -70,12 +70,13 @@ class PanelEntry extends HookWidget  {
 
   PanelEntry({super.key,
     required this.child,
+    PopupMenuController? popupController,
     this.onTap,
     this.onLongPressed,
     this.isToggled = false,
     this.axis = Axis.horizontal,
     this.axisAlignment = -1.0,
-  });
+  }): popupController = popupController ?? PopupMenuController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,14 +98,14 @@ class PanelEntry extends HookWidget  {
       child: SizedBox.fromSize(
         size: const Size(34.0, 34.0),
         child: PopupMenuTarget(
-          controller: controller,
+          controller: popupController,
           child: Material(
             color: isToggled ? GizColors.primaryOpacity20: Colors.transparent,
             child: InkWell(
               splashColor: GizColors.primaryOpacity20,
               highlightColor: GizColors.primaryOpacity20,
-              onTap: () { onTap?.call(controller); },
-              onLongPress: () { onLongPressed?.call(controller); },
+              onTap: () { onTap?.call(popupController); },
+              onLongPress: () { onLongPressed?.call(popupController); },
               child: Stack(
                 children: [
                   if(onLongPressed != null)
