@@ -9,7 +9,7 @@ DialogStackEntry showPopupOnDialogStack({
   required DialogStackController dialogController,
   Color? color,
   BorderRadius borderRadius = BorderRadius.zero,
-  BorderSide side = BorderSide.none,
+  BorderSide? side,
   List<BoxShadow> shadows = const <BoxShadow>[],
   final double triangleBase = 10.0,
   final double triangleHeight = 15.0,
@@ -172,7 +172,7 @@ class PopupMenu extends StatelessWidget  {
   final PopupMenuAlignment alignment;
   final Color? color;
   final List<BoxShadow> shadows;
-  final BorderSide side;
+  final BorderSide? side;
   final BorderRadius borderRadius;
   final double offset;
   final double triangleBase;
@@ -199,7 +199,10 @@ class PopupMenu extends StatelessWidget  {
         alignment: alignment,
         borderRadius: borderRadius,
         offset: offset,
-        side: side,
+        side: side ?? BorderSide(
+          color: Get.theme.colorScheme.onSurface,
+          width: 1.0,
+        ),
         triangleBase: triangleBase,
         triangleHeight: triangleHeight,
       ),
