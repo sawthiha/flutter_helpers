@@ -8,9 +8,9 @@ DialogStackEntry showPopupOnDialogStack({
   required Offset offset,
   required DialogStackController dialogController,
   Color? color,
-  BorderRadius borderRadius = BorderRadius.zero,
+  BorderRadius? borderRadius,
   BorderSide? side,
-  List<BoxShadow> shadows = const <BoxShadow>[],
+  List<BoxShadow>? shadows,
   final double triangleBase = 10.0,
   final double triangleHeight = 15.0,
   bool isDraggable = false,
@@ -171,9 +171,9 @@ class PopupMenu extends StatelessWidget  {
   final WidgetBuilder builder;
   final PopupMenuAlignment alignment;
   final Color? color;
-  final List<BoxShadow> shadows;
+  final List<BoxShadow>? shadows;
   final BorderSide? side;
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   final double offset;
   final double triangleBase;
   final double triangleHeight;
@@ -194,10 +194,17 @@ class PopupMenu extends StatelessWidget  {
   Widget build(BuildContext context) => Container(
     decoration: ShapeDecoration(
       color: color ?? Theme.of(context).colorScheme.surface,
-      shadows: shadows,
+      shadows: shadows ?? [
+        BoxShadow(
+          color: Theme.of(context).colorScheme.shadow,
+          offset: Offset(2.0, 2.0),
+          blurRadius: 2.0,
+          spreadRadius: 2.0,
+        ),
+      ],
       shape: PopupMenuShape(
         alignment: alignment,
-        borderRadius: borderRadius,
+        borderRadius: borderRadius ?? BorderRadius.circular(8.0),
         offset: offset,
         side: side ?? BorderSide(
           color: Get.theme.colorScheme.onSurface,
