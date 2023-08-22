@@ -193,7 +193,7 @@ class PopupMenu extends StatelessWidget  {
   @override
   Widget build(BuildContext context) => Container(
     decoration: ShapeDecoration(
-      color: color,
+      color: color ?? Theme.of(context).colorScheme.surface,
       shadows: shadows,
       shape: PopupMenuShape(
         alignment: alignment,
