@@ -146,7 +146,7 @@ class TextButtonBar extends StatelessWidget  {
               child: Text(value,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   fontWeight: value == currentValue ? FontWeight.w600: FontWeight.w400,
-                  color: value == currentValue ? textColor: selectedTextColor,
+                  color: value == currentValue ? selectedTextColor: textColor,
                 ),
               ),
               onTap: ()  {
