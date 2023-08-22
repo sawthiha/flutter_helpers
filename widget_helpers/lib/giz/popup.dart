@@ -187,7 +187,7 @@ class PopupMenu extends StatelessWidget  {
     required this.triangleBase,
     required this.triangleHeight,
     this.color,
-    this.shadows = const <BoxShadow>[],
+    this.shadows,
   });
 
   @override
@@ -196,7 +196,7 @@ class PopupMenu extends StatelessWidget  {
       color: color ?? Theme.of(context).colorScheme.surface,
       shadows: shadows ?? [
         BoxShadow(
-          color: Theme.of(context).colorScheme.shadow,
+          color: Theme.of(context).colorScheme.shadow.withOpacity(0.2),
           offset: Offset(2.0, 2.0),
           blurRadius: 2.0,
           spreadRadius: 2.0,
