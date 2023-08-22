@@ -68,6 +68,10 @@ class PanelEntry extends HookWidget  {
   final Axis axis;
   final double axisAlignment;
 
+  final Color? splashColor;
+  final Color? highlightColor;
+  final Color? toggledColor;
+
   PanelEntry({super.key,
     required this.child,
     PopupMenuController? popupController,
@@ -76,6 +80,11 @@ class PanelEntry extends HookWidget  {
     this.isToggled = false,
     this.axis = Axis.horizontal,
     this.axisAlignment = -1.0,
+    
+    this.splashColor,
+    this.highlightColor,
+    this.toggledColor,
+
   }): popupController = popupController ?? PopupMenuController();
 
   @override
@@ -100,10 +109,11 @@ class PanelEntry extends HookWidget  {
         child: PopupMenuTarget(
           controller: popupController,
           child: Material(
-            color: isToggled ? GizColors.primaryOpacity20: Colors.transparent,
+            // color: isToggled ? GizColors.primaryOpacity20: Colors.transparent,
+            color: isToggled ? (toggledColor ?? Theme.of(context).colorScheme.onSurface.withOpacity(0.3)): Colors.transparent,
             child: InkWell(
-              splashColor: GizColors.primaryOpacity20,
-              highlightColor: GizColors.primaryOpacity20,
+              splashColor: splashColor,
+              highlightColor: highlightColor,
               onTap: () { onTap?.call(popupController); },
               onLongPress: () { onLongPressed?.call(popupController); },
               child: Stack(
