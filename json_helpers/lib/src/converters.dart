@@ -565,6 +565,33 @@ class RectConverter extends JsonConverter<Rect, dynamic>  {
 
 }
 
+class RRectConverter extends JsonConverter<RRect, dynamic>  {
+
+  static const radiusConverter = RadiusConverter();
+  static const rectConverter = RectConverter();
+
+  const RRectConverter();
+  
+  @override
+  RRect fromJson(json) => RRect.fromRectAndCorners(
+    rectConverter.fromJson(json['rect']),
+    topLeft: radiusConverter.fromJson(json['tl']),
+    topRight: radiusConverter.fromJson(json['tr']),
+    bottomRight: radiusConverter.fromJson(json['br']),
+    bottomLeft: radiusConverter.fromJson(json['bl']),
+  );
+  
+  @override
+  toJson(RRect object) => {
+    'rect': rectConverter.toJson(object.outerRect),
+    'tl': radiusConverter.toJson(object.tlRadius),
+    'tr': radiusConverter.toJson(object.trRadius),
+    'br': radiusConverter.toJson(object.brRadius),
+    'bl': radiusConverter.toJson(object.blRadius),
+  };
+
+}
+
 class BoxFitConverter extends JsonConverter<BoxFit, dynamic>  {
 
   const BoxFitConverter();
