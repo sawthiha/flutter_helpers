@@ -183,8 +183,13 @@ class DateTimeConverter extends JsonConverter<DateTime, String>  {
 /// Matrix4 Json Converter
 class Matrix4Converter extends JsonConverter<Matrix4, dynamic>  {
 
+  static Matrix4 _defaultFallback() => Matrix4.identity();
+  final Matrix4 Function() fallback;
+
   /// Const Constructor (Necessary for Annotation)
-  const Matrix4Converter();
+  const Matrix4Converter({
+    this.fallback = _defaultFallback,
+  });
 
   @override
   Matrix4 fromJson(dynamic json)
