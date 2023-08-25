@@ -126,17 +126,15 @@ class PerspectiveContainer extends StatelessWidget  {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Obx(
-    () => Transform(
-      origin: Offset.zero,
-      alignment: Alignment.center,
-      transform: Matrix4.identity()
-        ..setEntry(3, 2, 0.001)
-        ..rotateX(rotationX)
-        ..rotateY(rotationY)
-        ..rotateZ(rotationZ),
-      child: child,
-    ),
+  Widget build(BuildContext context) => Transform(
+    origin: Offset.zero,
+    alignment: Alignment.center,
+    transform: Matrix4.identity()
+      ..setEntry(3, 2, 0.001)
+      ..rotateX(rotationX)
+      ..rotateY(rotationY)
+      ..rotateZ(rotationZ),
+    child: child,
   );
 
 }
