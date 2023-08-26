@@ -68,6 +68,8 @@ class PanelEntry extends HookWidget  {
   final Axis axis;
   final double axisAlignment;
 
+  final double width;
+
   final Color? splashColor;
   final Color? highlightColor;
   final Color? toggledColor;
@@ -80,6 +82,8 @@ class PanelEntry extends HookWidget  {
     this.isToggled = false,
     this.axis = Axis.horizontal,
     this.axisAlignment = -1.0,
+
+    this.width = 34.0,
     
     this.splashColor,
     this.highlightColor,
@@ -105,11 +109,10 @@ class PanelEntry extends HookWidget  {
       axis: axis,
       axisAlignment: axisAlignment,
       child: SizedBox.fromSize(
-        size: const Size(34.0, 34.0),
+        size: Size(width, 34.0),
         child: PopupMenuTarget(
           controller: popupController,
           child: Material(
-            // color: isToggled ? GizColors.primaryOpacity20: Colors.transparent,
             color: isToggled ? (toggledColor ?? Theme.of(context).colorScheme.onSurface.withOpacity(0.3)): Colors.transparent,
             child: InkWell(
               splashColor: splashColor,
