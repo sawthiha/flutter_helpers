@@ -15,7 +15,6 @@ dependencies:
   flutter_hooks: ^0.18.5+1
   get: ^4.6.5
   provider: ^6.0.0
-  sensors_plus: ^3.0.2
 
 dev_dependencies:
   flutter_test:
