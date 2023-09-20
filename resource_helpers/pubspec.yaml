@@ -1,0 +1,25 @@
+name: resource_helpers
+description: Resource access helper
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: '>=3.2.0-22.0.dev <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  freezed_annotation: 
+  path: ^1.8.3
+  path_provider: ^2.0.11
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  freezed: 
+  build_runner: 
+  json_serializable: 
+
+flutter:
