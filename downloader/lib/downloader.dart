@@ -34,7 +34,7 @@ part 'domain/download_task_state.dart';
 part 'utils/header_extension.dart';
 part 'utils/custom_dio_native.dart';
 
-Future<DownloadTaskRepository> initXBoardDownloader({
+Future<DownloadTaskRepository> initDownloader({
   required int typeId,
   String boxName = 'xboard_downloads',
 }) async {
