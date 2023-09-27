@@ -126,12 +126,14 @@ class TextButtonBar extends StatelessWidget  {
   final ValueChanged<String> onChanged;
   final Color? selectedTextColor;
   final Color? textColor;
+  final double? fontSize;
 
   const TextButtonBar({super.key,
     required this.currentValue,
     required this.values,
     required this.onChanged,
     this.selectedTextColor,
+    this.fontSize,
     this.textColor,
   });
   
@@ -147,6 +149,7 @@ class TextButtonBar extends StatelessWidget  {
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   fontWeight: value == currentValue ? FontWeight.w600: FontWeight.w400,
                   color: value == currentValue ? selectedTextColor: textColor,
+                  fontSize: fontSize,
                 ),
               ),
               onTap: ()  {
