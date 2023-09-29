@@ -157,7 +157,7 @@ class DurationListConverter extends JsonConverter<List<Duration>, dynamic>  {
 }
 
 /// DateTime Json Converter
-class DateTimeConverter extends JsonConverter<DateTime, String>  {
+class DateTimeConverter extends JsonConverter<DateTime, dynamic>  {
 
   static DateTime _defaultFallback() => DateTime.now();
   final DateTime Function() fallback;
@@ -167,7 +167,7 @@ class DateTimeConverter extends JsonConverter<DateTime, String>  {
   });
 
   @override
-  DateTime fromJson(String json) {
+  DateTime fromJson(json) {
     try {
       return DateTime.parse(json);
     } catch (e) {
@@ -176,7 +176,7 @@ class DateTimeConverter extends JsonConverter<DateTime, String>  {
   }
 
   @override
-  String toJson(DateTime object) => object.toIso8601String();
+  toJson(DateTime object) => object.toIso8601String();
   
 }
 
