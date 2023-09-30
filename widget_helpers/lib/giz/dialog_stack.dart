@@ -36,13 +36,17 @@ class DialogStackEntry extends GetxController  {
       );
     }
     final widget = isDraggable ? DraggableDialogEntry(
+      key: ValueKey(this),
       builder: _builder,
       isAlwaysClosable: isAlwaysClosable,
       entry: this,
       onDragStart: onDragStart,
       onDragEnd: onDragEnd,
       onClose: onDialogClose,
-    ): Builder(builder: _builder);
+    ): Builder(
+      key: ValueKey(this),
+      builder: _builder,
+    );
     return Positioned.fromRect(
       rect: offset & size,
       child: widget,
